@@ -1,23 +1,46 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { pickBy, startsWith, reduce, tail, zipObject, concat, map, sortBy } from 'lodash'
+import { pickBy, reduce, tail, zipObject, concat, map, sortBy, sumBy } from 'lodash'
+import NumberWithLabel from './components/NumberWithLabel'
+import HeaderText from './components/HeaderText'
 
 const axios = require('axios')
 
 export default class App extends Component {
 	//-------------------------------
-	// TODO: Implement Data-Model
+	// TODO: 
 	//-------------------------------
 	state = {
 		value: '',
 		adwordData: {},
-		options: []
+		options: [],
+		sumClicks: 0,
+		sumImpressions: 0,
+		model: {
+			campaign: 0,
+			channel: 1,
+			clicks: 2,
+			impressions: 3
+		}
+	}
+
+	getSum = (value, col) => {
+		let sum = sumBy(this.state.adwordData, (o) => {
+			if(o[this.getColumn(o, 'campaign')] === value
+			|| o[this.getColumn(o, 'channel')] === value)
+				return o[this.getColumn(o, col)]
+		});
+
+		return sum;
 	}
 
 	onChange = (value) => {
-		console.log('New Value', value);
+		console.log('New Value', value)
 
-		this.setState({ value });
+		const sumClicks = this.getSum(value, 'clicks')
+		const sumImpressions = this.getSum(value, 'impressions')
+
+		this.setState({ value, sumClicks, sumImpressions })
 	}
 
 	componentDidMount = () => {
@@ -28,40 +51,71 @@ export default class App extends Component {
 		);
 	}
 
-	csvToJson = (csv) => {
-		const content = csv.trim().split('\n');
+	parseRow = (row) => {
+		row[2] = parseInt(row[2])
+		row[3] = parseInt(row[3])
 
-		const header = content[0].split(',');
+		return row;
+	}
+
+	getColumn = (obj, prop) => {
+		return Object.keys(obj)[this.state.model[prop]]
+	}
+
+	csvToJson = (csv) => {
+		const content = csv.trim().split('\n')
+
+		const header = content[0].split(',')
 		const adwordData = sortBy(tail(content).map(row => {
-			return zipObject(header, row.split(','));
-		}), ['campaign', 'channel']);
+			return zipObject(header, this.parseRow(row.split(',')))
+		}), ['campaign', 'channel'])
 
 		//this.setState({ adwordData: jsonData });
 
 		//console.log(JSON.stringify(adwordData))
 
-		var uniques = concat(...new Set(adwordData.map(item => item.campaign)), ...new Set(adwordData.map(item => item.channel)));
+		var uniques = concat(
+			...new Set(adwordData.map(item => item[this.getColumn(item, 'campaign')])),
+			...new Set(adwordData.map(item => item[this.getColumn(item, 'channel')]))
+		);
 
-		//console.log(JSON.stringify(uniques));
+		//console.log(adwordData.map(item => item[this.getColumn(item, 'campaign')]))
+
+		//console.log(JSON.stringify(uniques))
 
 		const options = uniques.map((value, key) => {
-			return { value: value, label: value };
-		});
+			return { value: value, label: value }
+		})
 
 		//console.log(JSON.stringify(options))
 
-		this.setState({ options, adwordData });
+		this.setState({ options, adwordData })
 	}
 	
 	render() {
+		const selectDivStyle = {
+			display: 'inline-block',
+			width: '300px'
+		}
+
 		return (
-			<Select
-			    name='selectField'
-			    value={this.state.value}
-			    options={this.state.options}
-			    simpleValue
-			    onChange={this.onChange}
-			/>
+			<div>
+				<HeaderText text='Choose channel or campaign:' />
+				<div style={selectDivStyle}>
+					<Select
+					    name='selectField'
+					    value={this.state.value}
+					    options={this.state.options}
+					    simpleValue
+					    onChange={this.onChange}
+					    placeholder=''
+					/>
+				</div>
+				<p>
+					<NumberWithLabel labelText='Clicks:' numberCount={this.state.sumClicks} />
+					<NumberWithLabel labelText='Impressions:' numberCount={this.state.sumImpressions} />
+				</p>
+			</div>
 		);
 	}
 }
