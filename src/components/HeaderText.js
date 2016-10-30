@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-export default class App extends Component {
-
-	render() {
-		return (
-			<h3>{this.props.text}</h3>
-		)
-	}
+function HeaderText(props) {
+		return <h3>{props.text}</h3>
 }
+
+module.exports = HeaderText
