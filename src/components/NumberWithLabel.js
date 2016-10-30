@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { Component } from 'react';
+/*
 var NumberWithLabel = React.createClass({
 	render () {
 		var outerSpanStyle = {
@@ -20,5 +20,25 @@ var NumberWithLabel = React.createClass({
 		);
 	}
 });
+*/
+function NumberWithLabel(props) {
+	var outerSpanStyle = {
+		marginRight: '1em',
+		display: 'inline'
+	}
+	var innerSpanStyle = {
+		color: '#DD0000',
+		backgroundColor: '#EEEEEE',
+		border : '1px gray',
+		borderRadius: '3px',
+		padding: '0.3em'
+	}
 
-module.exports = NumberWithLabel;
+	return (
+		<span style={outerSpanStyle}>
+			{props.labelText} <span style={innerSpanStyle}>{props.numberCount}</span>
+		</span>
+	)
+}
+
+module.exports = NumberWithLabel
