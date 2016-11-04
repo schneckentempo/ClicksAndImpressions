@@ -14,7 +14,7 @@ export default function NumberWithLabel({ label, number }) {
 	}
 
 	return (
-		<span style={outerSpanStyle}>
+		<span style={ outerSpanStyle }>
 			{ label } <span style={innerSpanStyle}>{ number }</span>
 		</span>
 	)
