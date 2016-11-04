@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function NumberWithLabel({label, number}) {
+export default function NumberWithLabel({ label, number }) {
 	var outerSpanStyle = {
 		marginRight: '1em',
 		display: 'inline'

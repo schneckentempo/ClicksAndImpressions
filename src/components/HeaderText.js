@@ -1,5 +1,5 @@
 import React from 'react'
 
 export default function HeaderText({ text }) {
-		return <h3>{text}</h3>
+		return <h3>{ text }</h3>
 }
