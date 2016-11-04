@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react'
 
-function HeaderText(props) {
-		return <h3>{props.text}</h3>
+export default function HeaderText({ text }) {
+		return <h3>{text}</h3>
 }
-
-module.exports = HeaderText

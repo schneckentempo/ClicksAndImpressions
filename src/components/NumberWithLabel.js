@@ -1,27 +1,6 @@
-import React, { Component } from 'react';
-/*
-var NumberWithLabel = React.createClass({
-	render () {
-		var outerSpanStyle = {
-			marginRight: '1em',
-			display: 'inline'
-		}
-		var innerSpanStyle = {
-			color: '#DD0000',
-			backgroundColor: '#EEEEEE',
-			border : '1px gray',
-			borderRadius: '3px',
-			padding: '0.3em'
-		}
-		return (
-			<span style={outerSpanStyle}>
-				{this.props.labelText} <span style={innerSpanStyle}>{this.props.numberCount}</span>
-			</span>
-		);
-	}
-});
-*/
-function NumberWithLabel(props) {
+import React from 'react'
+
+export default function NumberWithLabel({label, number}) {
 	var outerSpanStyle = {
 		marginRight: '1em',
 		display: 'inline'
@@ -36,9 +15,7 @@ function NumberWithLabel(props) {
 
 	return (
 		<span style={outerSpanStyle}>
-			{props.labelText} <span style={innerSpanStyle}>{props.numberCount}</span>
+			{ label } <span style={innerSpanStyle}>{ number }</span>
 		</span>
 	)
 }
-
-module.exports = NumberWithLabel
