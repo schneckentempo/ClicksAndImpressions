@@ -19,3 +19,8 @@ export default function NumberWithLabel({ label, number }) {
 		</span>
 	)
 }
+
+NumberWithLabel.propTypes = {
+	label: React.PropTypes.string,
+	number: React.PropTypes.number
+}
