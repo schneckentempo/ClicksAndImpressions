@@ -7,6 +7,7 @@
     "browser": true,
     "node": true
   },
+  "extends": "airbnb",
   "parser": "babel-eslint",
   "rules": {
     "quotes": [2, "single"],
