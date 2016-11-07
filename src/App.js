@@ -8,7 +8,7 @@ const axios = require('axios')
 
 export default class App extends Component {
 	//-------------------------------
-	// TODO: 
+	// TODO:
 	//-------------------------------
 	state = {
 		value: '',
@@ -91,7 +91,7 @@ export default class App extends Component {
 
 		this.setState({ options, adwordData })
 	}
-	
+
 	render() {
 		const selectDivStyle = {
 			display: 'inline-block',
@@ -112,11 +112,10 @@ export default class App extends Component {
 					/>
 				</div>
 				<p>
-					<NumberWithLabel labelText='Clicks:' numberCount={this.state.sumClicks} />
-					<NumberWithLabel labelText='Impressions:' numberCount={this.state.sumImpressions} />
+					<NumberWithLabel label='Clicks:' number={this.state.sumClicks} />
+					<NumberWithLabel label='Impressions:' number={this.state.sumImpressions} />
 				</p>
 			</div>
 		);
 	}
 }
-
