@@ -1,121 +1,108 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { pickBy, reduce, tail, zipObject, concat, map, sortBy, sumBy } from 'lodash'
-import NumberWithLabel from './components/NumberWithLabel'
-import HeaderText from './components/HeaderText'
+import { tail, zipObject, concat, sortBy, sumBy } from 'lodash';
+import NumberWithLabel from './components/NumberWithLabel';
+import HeaderText from './components/HeaderText';
 
-const axios = require('axios')
+const axios = require('axios');
 
 export default class App extends Component {
-	//-------------------------------
-	// TODO:
-	//-------------------------------
-	state = {
-		value: '',
-		adwordData: {},
-		options: [],
-		sumClicks: 0,
-		sumImpressions: 0,
-		model: {
-			campaign: 0,
-			channel: 1,
-			clicks: 2,
-			impressions: 3
-		}
-	}
+//-------------------------------
+// TODO:
+//-------------------------------
+  state = {
+    value: '',
+    adwordData: {},
+    options: [],
+    sumClicks: 0,
+    sumImpressions: 0,
+    model: {
+      campaign: 0,
+      channel: 1,
+      clicks: 2,
+      impressions: 3,
+    },
+  }
 
-	getSum = (value, col) => {
-		let sum = sumBy(this.state.adwordData, (o) => {
-			if(o[this.getColumn(o, 'campaign')] === value
-			|| o[this.getColumn(o, 'channel')] === value)
-				return o[this.getColumn(o, col)]
-		});
+  componentDidMount = () => {
+    axios.get('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6').then(response =>
+      this.csvToJson(response.data)
+    );
+  }
 
-		return sum;
-	}
+  onChange = (value) => {
+    const sumClicks = this.getSum(value, 'clicks');
+    const sumImpressions = this.getSum(value, 'impressions');
 
-	onChange = (value) => {
-		console.log('New Value', value)
+    this.setState({ value, sumClicks, sumImpressions });
+  }
 
-		const sumClicks = this.getSum(value, 'clicks')
-		const sumImpressions = this.getSum(value, 'impressions')
+  getSum = (value, col) => {
+    const sum = sumBy(this.state.adwordData, (o) => {
+      if (o[this.getColumn(o, 'campaign')] === value || o[this.getColumn(o, 'channel')] === value) {
+        return o[this.getColumn(o, col)];
+      }
 
-		this.setState({ value, sumClicks, sumImpressions })
-	}
+      return 0;
+    });
 
-	componentDidMount = () => {
-		console.log("did mount")
+    return sum;
+  }
 
-		axios.get('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6').then((response) =>
-			this.csvToJson(response.data)
-		);
-	}
+  getColumn = (obj, prop) => Object.keys(obj)[this.state.model[prop]];
 
-	parseRow = (row) => {
-		row[2] = parseInt(row[2])
-		row[3] = parseInt(row[3])
 
-		return row;
-	}
+  parseRow = (row) => {
+    const parsedRow = [...row];
 
-	getColumn = (obj, prop) => {
-		return Object.keys(obj)[this.state.model[prop]]
-	}
+    parsedRow[2] = parseInt(parsedRow[2], 10);
+    parsedRow[3] = parseInt(parsedRow[3], 10);
 
-	csvToJson = (csv) => {
-		const content = csv.trim().split('\n')
+    return parsedRow;
+  }
 
-		const header = content[0].split(',')
-		const adwordData = sortBy(tail(content).map(row => {
-			return zipObject(header, this.parseRow(row.split(',')))
-		}), ['campaign', 'channel'])
+  csvToJson = (csv) => {
+    const content = csv.trim().split('\n');
 
-		//this.setState({ adwordData: jsonData });
+    const header = content[0].split(',');
+    const adwordData = sortBy(tail(content).map(row =>
+      zipObject(header, this.parseRow(row.split(',')))
+    ), ['campaign', 'channel']);
 
-		//console.log(JSON.stringify(adwordData))
+    const uniques = concat(
+      ...new Set(adwordData.map(item => item[this.getColumn(item, 'campaign')])),
+      ...new Set(adwordData.map(item => item[this.getColumn(item, 'channel')]))
+    );
 
-		var uniques = concat(
-			...new Set(adwordData.map(item => item[this.getColumn(item, 'campaign')])),
-			...new Set(adwordData.map(item => item[this.getColumn(item, 'channel')]))
-		);
+    const options = uniques.map(value => ({ value, label: value }));
 
-		//console.log(adwordData.map(item => item[this.getColumn(item, 'campaign')]))
+    this.setState({ options, adwordData });
+  }
 
-		//console.log(JSON.stringify(uniques))
+  render() {
+    const selectDivStyle = {
+      display: 'inline-block',
+      width: '300px',
+    };
 
-		const options = uniques.map((value, key) => {
-			return { value: value, label: value }
-		})
-
-		//console.log(JSON.stringify(options))
-
-		this.setState({ options, adwordData })
-	}
-
-	render() {
-		const selectDivStyle = {
-			display: 'inline-block',
-			width: '300px'
-		}
-
-		return (
-			<div>
-				<HeaderText text='Choose channel or campaign:' />
-				<div style={selectDivStyle}>
-					<Select
-					    name='selectField'
-					    value={this.state.value}
-					    options={this.state.options}
-					    simpleValue
-					    onChange={this.onChange}
-					    placeholder=''
-					/>
-				</div>
-				<p>
-					<NumberWithLabel label='Clicks:' number={this.state.sumClicks} />
-					<NumberWithLabel label='Impressions:' number={this.state.sumImpressions} />
-				</p>
-			</div>
-		);
-	}
+    return (
+      <div>
+        <HeaderText text="Choose channel or campaign:" />
+        <div style={selectDivStyle}>
+          <Select
+            name="selectField"
+            value={this.state.value}
+            options={this.state.options}
+            simpleValue
+            onChange={this.onChange}
+            placeholder=""
+          />
+        </div>
+        <p>
+          <NumberWithLabel label="Clicks:" number={this.state.sumClicks} />
+          <NumberWithLabel label="Impressions:" number={this.state.sumImpressions} />
+        </p>
+      </div>
+    );
+  }
 }
