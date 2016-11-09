@@ -7,7 +7,7 @@ export default function DetailSelector({ header, value, options, onChange, click
   return (
     <div>
       <HeaderText text={header} />
-      <MetricSelect value={value} options={options} onChange={onChange} width="300" />
+      <MetricSelect value={value} options={options} onChange={onChange} />
       <p>
         <NumberWithLabel label="Clicks:" number={clicks} />
         <NumberWithLabel label="Impressions:" number={impressions} />
