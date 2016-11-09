@@ -1,3 +1,3 @@
-export default function getColumn(obj, prop) {
-  return Object.keys(obj)[this.state.model[prop]]
+export default function getColumn(obj, prop, model) {
+  return Object.keys(obj)[model[prop]]
 }
