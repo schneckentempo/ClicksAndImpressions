@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "lint": "./node_modules/eslint/bin/eslint src",
-    "test": "./node_modules/mocha/bin/mocha \"src/test\" --compilers js:babel-core/register"
+    "test": "./node_modules/mocha/bin/mocha \"src/**/test/*.spec.js\" --recursive --compilers js:babel-core/register"
   },
   "repository": {
     "type": "git",
