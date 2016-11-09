@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 
-export default function MetricSelect({ value, options, onChange }) {
+export default function DimensionValueSelect({ value, options, onChange }) {
   const selectDivStyle = {
     display: 'inline-block',
     width: '300px',
@@ -21,7 +21,7 @@ export default function MetricSelect({ value, options, onChange }) {
   )
 }
 
-MetricSelect.propTypes = {
+DimensionValueSelect.propTypes = {
   value: React.PropTypes.string,
   options: React.PropTypes.arrayOf(React.PropTypes.object),
   onChange: React.PropTypes.func,

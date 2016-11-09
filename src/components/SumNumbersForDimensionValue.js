@@ -1,13 +1,13 @@
 import React from 'react'
 import HeaderText from './HeaderText'
 import NumberWithLabel from './NumberWithLabel'
-import MetricSelect from './MetricSelect'
+import DimensionValueSelect from './DimensionValueSelect'
 
-export default function DetailSelector({ header, value, options, onChange, clicks, impressions }) {
+export default function SumNumbersForDimensionValue({ header, value, options, onChange, clicks, impressions }) {
   return (
     <div>
       <HeaderText text={header} />
-      <MetricSelect value={value} options={options} onChange={onChange} />
+      <DimensionValueSelect value={value} options={options} onChange={onChange} />
       <p>
         <NumberWithLabel label="Clicks:" number={clicks} />
         <NumberWithLabel label="Impressions:" number={impressions} />
@@ -16,7 +16,7 @@ export default function DetailSelector({ header, value, options, onChange, click
   )
 }
 
-DetailSelector.propTypes = {
+SumNumbersForDimensionValue.propTypes = {
   header: React.PropTypes.string,
   value: React.PropTypes.string,
   options: React.PropTypes.arrayOf(React.PropTypes.object),

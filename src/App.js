@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { tail, zipObject, concat, sortBy, sumBy } from 'lodash'
-import DetailSelector from './components/DetailSelector'
+import SumNumbersForDimensionValue from './components/SumNumbersForDimensionValue'
 
 const axios = require('axios')
 
@@ -9,7 +9,7 @@ export default class App extends Component {
 // TODO:
 //-------------------------------
   state = {
-    value: '',
+    selectedDimensionValue: '',
     adwordData: {},
     options: [],
     sumClicks: 0,
@@ -28,11 +28,11 @@ export default class App extends Component {
     )
   }
 
-  onChange = (value) => {
-    const sumClicks = this.getSum(value, 'clicks')
-    const sumImpressions = this.getSum(value, 'impressions')
+  onChange = (selectedDimensionValue) => {
+    const sumClicks = this.getSum(selectedDimensionValue, 'clicks')
+    const sumImpressions = this.getSum(selectedDimensionValue, 'impressions')
 
-    this.setState({ value, sumClicks, sumImpressions })
+    this.setState({ selectedDimensionValue, sumClicks, sumImpressions })
   }
 
   getSum = (value, col) => {
@@ -79,9 +79,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <DetailSelector
+      <SumNumbersForDimensionValue
         header="Choose channel or campaign:"
-        value={this.state.value}
+        value={this.state.selectedDimensionValue}
         options={this.state.options}
         onChange={this.onChange}
         clicks={this.state.sumClicks}
