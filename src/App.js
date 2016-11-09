@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import Select from 'react-select'
 import { tail, zipObject, concat, sortBy, sumBy } from 'lodash'
-import NumberWithLabel from './components/NumberWithLabel'
-import HeaderText from './components/HeaderText'
+import DetailSelector from './components/DetailSelector'
 
 const axios = require('axios')
 
@@ -80,29 +78,15 @@ export default class App extends Component {
   }
 
   render() {
-    const selectDivStyle = {
-      display: 'inline-block',
-      width: '300px',
-    }
-
     return (
-      <div>
-        <HeaderText text="Choose channel or campaign:" />
-        <div style={selectDivStyle}>
-          <Select
-            name="selectField"
-            value={this.state.value}
-            options={this.state.options}
-            simpleValue
-            onChange={this.onChange}
-            placeholder=""
-          />
-        </div>
-        <p>
-          <NumberWithLabel label="Clicks:" number={this.state.sumClicks} />
-          <NumberWithLabel label="Impressions:" number={this.state.sumImpressions} />
-        </p>
-      </div>
+      <DetailSelector
+        header="Choose channel or campaign:"
+        value={this.state.value}
+        options={this.state.options}
+        onChange={this.onChange}
+        clicks={this.state.sumClicks}
+        impressions={this.state.sumImpressions}
+      />
     )
   }
 }
