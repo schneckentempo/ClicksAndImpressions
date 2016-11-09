@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import Select from 'react-select'
-import NumberWithLabel from './components/NumberWithLabel'
-import HeaderText from './components/HeaderText'
+import SumNumbersForDimensionValue from './components/SumNumbersForDimensionValue'
 import getSum from './utils/getSum'
 import csvToJson from './utils/csvToJson'
 
@@ -12,7 +10,7 @@ export default class App extends Component {
 // TODO:
 //-------------------------------
   state = {
-    value: '',
+    selectedDimensionValue: '',
     adwordData: {},
     options: [],
     sumClicks: 0,
@@ -31,37 +29,23 @@ export default class App extends Component {
     )
   }
 
-  onChange = (value) => {
-    const sumClicks = getSum(this.state.adwordData, value, 'clicks', this.state.model)
-    const sumImpressions = getSum(this.state.adwordData, value, 'impressions', this.state.model)
+  onChangeDimenstionValue = (selectedDimensionValue) => {
+    const sumClicks = getSum(this.state.adwordData, selectedDimensionValue, 'clicks', this.state.model)
+    const sumImpressions = getSum(this.state.adwordData, selectedDimensionValue, 'impressions', this.state.model)
 
-    this.setState({ value, sumClicks, sumImpressions })
+    this.setState({ selectedDimensionValue, sumClicks, sumImpressions })
   }
 
   render() {
-    const selectDivStyle = {
-      display: 'inline-block',
-      width: '300px',
-    }
-
     return (
-      <div>
-        <HeaderText text="Choose channel or campaign:" />
-        <div style={selectDivStyle}>
-          <Select
-            name="selectField"
-            value={this.state.value}
-            options={this.state.options}
-            simpleValue
-            onChange={this.onChange}
-            placeholder=""
-          />
-        </div>
-        <p>
-          <NumberWithLabel label="Clicks:" number={this.state.sumClicks} />
-          <NumberWithLabel label="Impressions:" number={this.state.sumImpressions} />
-        </p>
-      </div>
+      <SumNumbersForDimensionValue
+        header="Choose channel or campaign:"
+        value={this.state.selectedDimensionValue}
+        options={this.state.options}
+        onChange={this.onChangeDimenstionValue}
+        clicks={this.state.sumClicks}
+        impressions={this.state.sumImpressions}
+      />
     )
   }
 }
