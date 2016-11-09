@@ -29,7 +29,7 @@ export default class App extends Component {
     )
   }
 
-  onChange = (selectedDimensionValue) => {
+  onChangeDimenstionValue = (selectedDimensionValue) => {
     const sumClicks = getSum(this.state.adwordData, selectedDimensionValue, 'clicks', this.state.model)
     const sumImpressions = getSum(this.state.adwordData, selectedDimensionValue, 'impressions', this.state.model)
 
@@ -42,7 +42,7 @@ export default class App extends Component {
         header="Choose channel or campaign:"
         value={this.state.selectedDimensionValue}
         options={this.state.options}
-        onChange={this.onChange}
+        onChange={this.onChangeDimenstionValue}
         clicks={this.state.sumClicks}
         impressions={this.state.sumImpressions}
       />
