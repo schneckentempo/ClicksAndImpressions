@@ -93,43 +93,4 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
 
     expect(csvToJson(csv, model)).to.eql({ options: [], adwordData: [] })
   })
-
-  it('should be able to work without a csv-headline', () => {
-    const csv = 'campaign_b,channel_b,185,8760\ncampaign_a,channel_a,203,5966'
-
-    const resultDataset = [{
-      col_1: 'campaign_a',
-      col_2: 'channel_a',
-      col_3: 203,
-      col_4: 5966,
-    }, {
-      col_1: 'campaign_b',
-      col_2: 'channel_b',
-      col_3: 185,
-      col_4: 8760,
-    }]
-
-    const resultOptions = [{
-      value: 'campaign_a',
-      label: 'campaign_a',
-    }, {
-      value: 'campaign_b',
-      label: 'campaign_b',
-    }, {
-      value: 'channel_a',
-      label: 'channel_a',
-    }, {
-      value: 'channel_b',
-      label: 'channel_b',
-    }]
-
-    const model = {
-      campaign: 0,
-      channel: 1,
-      clicks: 2,
-      impressions: 3,
-    }
-
-    expect(csvToJson(csv, model)).to.eql({ options: resultOptions, adwordData: resultDataset })
-  })
 })

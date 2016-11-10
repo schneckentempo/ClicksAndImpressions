@@ -63,20 +63,6 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
     expect(getSum(data, 'dimension description 3', 'metric', model)).to.equal(0)
   })
 
-  it('should return 0 when there are no metrics to sum up', () => {
-    const data = [{
-      dimension: 'dimension description 1',
-      metric: 50,
-    }]
-
-    const model = {
-      campaign: 0,
-      metric: 1,
-    }
-
-    expect(getSum(data, 'dimension description 1', 'nonexistentmetric', model)).to.equal(0)
-  })
-
   it('should return 0 if it has no campaign/channel defined in the model', () => {
     const data = [{
       dimension: 'dimension description 1',
