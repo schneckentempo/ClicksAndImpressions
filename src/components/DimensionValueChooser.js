@@ -15,15 +15,33 @@ export default class DimensionValueChooser extends Component {
     }
   }
 
-  componentWillReceiveProps = (props) => {
-    this.setState({ inputText: props.value })
+  componentWillReceiveProps = (nextProps) => {
+    const { value, options, onChange } = this.props
+    let inputText = nextProps.value
+
+    if (inputText === null || inputText === undefined) {
+      inputText = ''
+    }
+
+    if (value !== inputText) {
+      this.setState({
+        inputText,
+        closed: inputText.length === 0 || validOption(options, inputText),
+      })
+
+      if (validOption(options, inputText)) {
+        onChange(inputText)
+      } else {
+        onChange('')
+      }
+    }
   }
 
   onChangeInput = () => {
     const { options, onChange } = this.props
     const inputText = this.inputField.value
 
-    this.setState({ inputText, closed: inputText.length === 0 })
+    this.setState({ inputText, closed: inputText.length === 0 || validOption(options, inputText) })
 
     if (validOption(options, inputText)) {
       onChange(inputText)
@@ -33,9 +51,10 @@ export default class DimensionValueChooser extends Component {
   }
 
   onClickDimensionValue = (dimensionValue) => {
-    const { onChange } = this.props
+    const { options, onChange } = this.props
+    const inputText = this.inputField.value
 
-    this.setState({ inputText: dimensionValue })
+    this.setState({ inputText: dimensionValue, closed: !validOption(options, inputText) })
     onChange(dimensionValue)
   }
 
