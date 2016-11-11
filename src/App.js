@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SumNumbersForDimensionValue from './components/SumNumbersForDimensionValue'
 import getSum from './utils/getSum'
 import csvToJson from './utils/csvToJson'
+import dataProvider from './utils/dataProvider'
 
 const axios = require('axios')
 
@@ -17,12 +18,7 @@ export default class App extends Component {
       options: [],
       sumClicks: 0,
       sumImpressions: 0,
-      model: {
-        campaign: 0,
-        channel: 1,
-        clicks: 2,
-        impressions: 3,
-      },
+      model: dataProvider('mockbin.org'),
     }
   }
 
