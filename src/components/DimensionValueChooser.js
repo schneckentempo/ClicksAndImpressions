@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { find } from 'lodash'
+import ListItem from './ListItem'
 
 const filterOptions = (options, text) =>
   options.filter(option => option.label.toLowerCase().includes(text.toLowerCase()))
@@ -65,14 +66,9 @@ export default class DimensionValueChooser extends Component {
     const containerStyle = {
       width: 300,
     }
-    const liStyle = {
-      width: '100%',
-      listStyleType: 'none',
-      padding: 0,
-      margin: 0,
-    }
 
     const ulStyle = {
+      listStyleType: 'none',
       width: '100%',
       padding: 0,
       margin: 0,
@@ -93,16 +89,6 @@ export default class DimensionValueChooser extends Component {
       paddingLeft: 4,
     }
 
-    const aBtnStyle = {
-      boxSizing: 'border-box',
-      display: 'block',
-      backgroundColor: 'lightgrey',
-      padding: 5,
-      width: '100%',
-      height: '100%',
-      cursor: 'pointer',
-    }
-
     return (
       <div style={containerStyle}>
         <input
@@ -115,15 +101,12 @@ export default class DimensionValueChooser extends Component {
         <div style={ulWrapperStyle}>
           <ul style={ulStyle}>
             {filterOptions(options, inputText).map((dimensionValueObject, i) => (
-              <li key={i} style={liStyle}>
-                <a
-                  tabIndex={i}
-                  style={aBtnStyle}
-                  onClick={this.onClickDimensionValue.bind(this, dimensionValueObject.value)}
-                >
-                  {dimensionValueObject.label}
-                </a>
-              </li>
+              <ListItem
+                key={i}
+                index={i}
+                item={dimensionValueObject}
+                onItemClick={this.onClickDimensionValue}
+              />
               )
             )
           }
