@@ -8,10 +8,4 @@ describe('parseRow parses strings to int on index 2 and 3 for a given array (att
 
   it('should return ["a", "b", 1, 2] when given floats as strings', () =>
       expect(parseRow(['a', 'b', '1.0', '2.0'])).to.eql(['a', 'b', 1, 2]))
-
-  it('should return an error when given a NaN at index 3 or 4', () =>
-      expect(() => parseRow(['a', 'b', 'y', 'z'])).to.throw(Error))
-
-  it('or should return strings as strings after checking if there is a number to parse', () =>
-      expect(() => parseRow(['a', 'b', 'y', 'z'])).to.eql(['a', 'b', 'y', 'z']))
 })
