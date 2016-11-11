@@ -61,9 +61,10 @@ export default class DimensionValueChooser extends Component {
 
   render() {
     const { options } = this.props
-    const { inputText } = this.state
+    const { inputText, closed } = this.state
 
     const containerStyle = {
+      position: 'relative',
       width: 300,
     }
 
@@ -75,15 +76,24 @@ export default class DimensionValueChooser extends Component {
     }
 
     const ulWrapperStyle = {
+      position: 'absolute',
+      top: 28,
+      left: 0,
       width: '100%',
-      borderRadius: '0px 0px 5px 5px',
-      border: '1px solid grey',
-      display: this.state.closed ? 'none' : 'block',
+      maxHeight: 200,
+      overflow: 'auto',
+      borderRadius: '0px 0px 2px 2px',
+      border: '1px solid #AAAAAA',
+      backgroundColor: '#EFEFEF',
+      display: closed ? 'none' : 'block',
     }
 
     const inputStyle = {
-      width: '100%',
-      lineHeight: '1.5em',
+      width: 296,
+      lineHeight: 2,
+      color: '#333333',
+      border: '1px solid #AAAAAA',
+      borderRadius: closed ? 4 : '4px 4px 0px 0px',
       padding: 0,
       margin: 0,
       paddingLeft: 4,

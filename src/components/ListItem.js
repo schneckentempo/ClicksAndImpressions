@@ -9,10 +9,10 @@ export default class ListItem extends Component {
     const aBtnStyle = {
       boxSizing: 'border-box',
       display: 'block',
-      backgroundColor: 'lightgrey',
       padding: 5,
       width: '100%',
       height: '100%',
+      color: '#555555',
       cursor: 'pointer',
     }
 
