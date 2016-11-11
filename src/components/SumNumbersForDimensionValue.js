@@ -2,12 +2,21 @@ import React from 'react'
 import HeaderText from './HeaderText'
 import NumberWithLabel from './NumberWithLabel'
 import DimensionValueSelect from './DimensionValueSelect'
+import DimensionValueChooser from './DimensionValueChooser'
 
-export default function SumNumbersForDimensionValue({ header, value, options, onChange, clicks, impressions }) {
+export default function SumNumbersForDimensionValue({
+  header,
+  value,
+  options,
+  onChange,
+  clicks,
+  impressions,
+}) {
   return (
     <div>
       <HeaderText text={header} />
       <DimensionValueSelect value={value} options={options} onChange={onChange} />
+      <DimensionValueChooser value={value} options={options} onChange={onChange} />
       <p>
         <NumberWithLabel label="Clicks:" number={clicks} />
         <NumberWithLabel label="Impressions:" number={impressions} />

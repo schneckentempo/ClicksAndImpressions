@@ -25,5 +25,4 @@ DimensionValueSelect.propTypes = {
   value: React.PropTypes.string,
   options: React.PropTypes.arrayOf(React.PropTypes.object),
   onChange: React.PropTypes.func,
-  width: React.PropTypes.string,
 }
