@@ -16,6 +16,10 @@ export default class DimensionValueChooser extends Component {
     }
   }
 
+  componentDidMount = () => {
+    document.body.addEventListener('click', this.onClickBody)
+  }
+
   componentWillReceiveProps = (nextProps) => {
     const { value, options, onChange } = this.props
     let inputText = nextProps.value
@@ -36,6 +40,10 @@ export default class DimensionValueChooser extends Component {
         onChange('')
       }
     }
+  }
+
+  componentWillUnmount = () => {
+    document.body.removeEventListener('click', this.onClickBody)
   }
 
   onChangeInput = () => {
@@ -59,6 +67,22 @@ export default class DimensionValueChooser extends Component {
     onChange(dimensionValue)
   }
 
+  onClickInput = () => {
+    const { options } = this.props
+    const inputText = this.inputField.value
+
+    this.setState({
+      closed: !(
+        inputText.length === 0 ||
+        (inputText.length !== 0 && filterOptions(options, inputText).length > 1)
+      ),
+    })
+  }
+
+  onClickBody = () => {
+    this.setState({ closed: true })
+  }
+
   render() {
     const { options } = this.props
     const { inputText, closed } = this.state
@@ -77,7 +101,8 @@ export default class DimensionValueChooser extends Component {
 
     const ulWrapperStyle = {
       position: 'absolute',
-      top: 28,
+      boxSizing: 'border-box',
+      top: 27,
       left: 0,
       width: '100%',
       maxHeight: 200,
@@ -89,7 +114,7 @@ export default class DimensionValueChooser extends Component {
     }
 
     const inputStyle = {
-      width: 296,
+      width: 294,
       lineHeight: 2,
       color: '#333333',
       border: '1px solid #AAAAAA',
@@ -101,13 +126,16 @@ export default class DimensionValueChooser extends Component {
 
     return (
       <div style={containerStyle}>
-        <input
-          style={inputStyle}
-          type="text"
-          onChange={this.onChangeInput}
-          ref={(ref) => { this.inputField = ref }}
-          value={inputText}
-        />
+        <div>
+          <input
+            style={inputStyle}
+            type="text"
+            onChange={this.onChangeInput}
+            onClick={this.onClickInput}
+            ref={(ref) => { this.inputField = ref }}
+            value={inputText}
+          />
+        </div>
         <div style={ulWrapperStyle}>
           <ul style={ulStyle}>
             {filterOptions(options, inputText).map((dimensionValueObject, i) => (
