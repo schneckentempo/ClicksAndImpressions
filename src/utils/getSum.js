@@ -1,14 +1,21 @@
-import { sumBy } from 'lodash'
-import getColumn from './getColumn'
+import { sum, map, some } from 'lodash'
+
+function hasMatchingProperty(dimensions, adwordDataRow, value) {
+  return some(dimensions, dim => adwordDataRow[dim] === value)
+}
 
 export default function getSum(adwordData, value, col, model) {
-  const sum = sumBy(adwordData, (o) => {
-    if (o[getColumn(o, 'campaign', model)] === value || o[getColumn(o, 'channel', model)] === value) {
-      return o[getColumn(o, col, model)]
-    }
+  const dimensions = model.dimensions.map(dimension => dimension.header)
 
-    return 0
-  })
+  const sumTotal = sum(
+    map(adwordData, (adwordDataRow) => {
+      if (hasMatchingProperty(dimensions, adwordDataRow, value)) {
+        return adwordDataRow[col]
+      }
 
-  return sum
+      return 0
+    })
+  )
+
+  return sumTotal
 }

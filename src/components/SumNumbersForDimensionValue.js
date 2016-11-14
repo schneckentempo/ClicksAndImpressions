@@ -9,8 +9,7 @@ export default function SumNumbersForDimensionValue({
   value,
   options,
   onChange,
-  clicks,
-  impressions,
+  metrics,
 }) {
   return (
     <div>
@@ -18,8 +17,10 @@ export default function SumNumbersForDimensionValue({
       <DimensionValueSelect value={value} options={options} onChange={onChange} />
       <DimensionValueChooser value={value} options={options} onChange={onChange} />
       <p>
-        <NumberWithLabel label="Clicks:" number={clicks} />
-        <NumberWithLabel label="Impressions:" number={impressions} />
+      {
+        metrics.map(metricsObject =>
+          <NumberWithLabel label={metricsObject.name} number={metricsObject.sum} />)
+      }
       </p>
     </div>
   )
@@ -30,6 +31,5 @@ SumNumbersForDimensionValue.propTypes = {
   value: React.PropTypes.string,
   options: React.PropTypes.arrayOf(React.PropTypes.object),
   onChange: React.PropTypes.func,
-  clicks: React.PropTypes.number,
-  impressions: React.PropTypes.number,
+  metrics: React.PropTypes.arrayOf(React.PropTypes.object),
 }
