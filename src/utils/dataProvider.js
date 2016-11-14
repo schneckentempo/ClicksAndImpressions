@@ -10,10 +10,10 @@ export default function getDatamodel(domain) {
       }],
       dimensions: [{
         index: 0,
-        //header: 'campaign',
+        header: 'campaign',
       }, {
         index: 1,
-        //header: 'channel',
+        header: 'channel',
       }],
     }
 
