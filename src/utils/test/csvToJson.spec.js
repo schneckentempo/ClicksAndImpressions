@@ -7,10 +7,20 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
     const csv = 'campaign,channel,clicks,impressions\ncampaign_a,channel_a,185,8760\ncampaign_b,channel_b,203,5966'
 
     const model = {
-      campaign: 0,
-      channel: 1,
-      clicks: 2,
-      impressions: 3,
+      metrics: [{
+        index: 2,
+        header: 'clicks',
+      }, {
+        index: 3,
+        header: 'impressions',
+      }],
+      dimensions: [{
+        index: 0,
+        header: 'campaign',
+      }, {
+        index: 1,
+        header: 'channel',
+      }],
     }
 
     const resultDataset = [{
@@ -46,10 +56,20 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
     const csv = 'campaign,channel,clicks,impressions\ncampaign_b,channel_b,185,8760\ncampaign_a,channel_a,203,5966'
 
     const model = {
-      campaign: 0,
-      channel: 1,
-      clicks: 2,
-      impressions: 3,
+      metrics: [{
+        index: 2,
+        header: 'clicks',
+      }, {
+        index: 3,
+        header: 'impressions',
+      }],
+      dimensions: [{
+        index: 0,
+        header: 'campaign',
+      }, {
+        index: 1,
+        header: 'channel',
+      }],
     }
 
     const resultDataset = [{
@@ -85,10 +105,20 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
     const csv = ''
 
     const model = {
-      campaign: 0,
-      channel: 1,
-      clicks: 2,
-      impressions: 3,
+      metrics: [{
+        index: 2,
+        header: 'clicks',
+      }, {
+        index: 3,
+        header: 'impressions',
+      }],
+      dimensions: [{
+        index: 0,
+        header: 'campaign',
+      }, {
+        index: 1,
+        header: 'channel',
+      }],
     }
 
     expect(csvToJson(csv, model)).to.eql({ options: [], adwordData: [] })
