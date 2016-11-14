@@ -40,8 +40,6 @@ export default class App extends Component {
       return { name: metricObject.header, sum }
     })
 
-    console.log(sumMetrics)
-
     this.setState({ selectedDimensionValue, sumMetrics })
   }
 
