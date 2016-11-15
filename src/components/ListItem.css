@@ -1,0 +1,15 @@
+:local(.listButton) {
+  box-sizing: border-box;
+  display: block;
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+  color: #555555;
+  cursor: pointer;
+}
+
+:local(.listElement) {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}

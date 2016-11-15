@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SumNumbersForDimensionValue from './components/SumNumbersForDimensionValue'
 import getSum from './utils/getSum'
 import csvToJson from './utils/csvToJson'
+import './styles.css'
 
 const axios = require('axios')
 

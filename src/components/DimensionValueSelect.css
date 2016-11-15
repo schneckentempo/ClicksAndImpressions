@@ -1,0 +1,4 @@
+:local(.selectDiv) {
+  display: inline-block;
+  width: 300px;
+}
