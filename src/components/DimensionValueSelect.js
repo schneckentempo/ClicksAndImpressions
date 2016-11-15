@@ -1,10 +1,10 @@
 import React from 'react'
 import Select from 'react-select'
-import styles from './styles.css'
+import styles from './DimensionValueSelect.css'
 
 export default function DimensionValueSelect({ value, options, onChange }) {
   return (
-    <div className={styles.dvs_selectDiv}>
+    <div className={styles.selectDiv}>
       <Select
         name="selectField"
         value={value}

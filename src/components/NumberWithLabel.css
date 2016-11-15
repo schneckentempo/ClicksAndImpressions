@@ -1,0 +1,12 @@
+:local(.outerSpan) {
+  margin-right: 1em;
+  display: inline;
+}
+
+:local(.innerSpan) {
+  color: #DD0000;
+  background-color: #EEEEEE;
+  border: 1px gray;
+  border-radius: 3px;
+  padding: 0.3em;
+}

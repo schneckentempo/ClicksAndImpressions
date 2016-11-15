@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { find } from 'lodash'
 import ListItem from './ListItem'
-import styles from './styles.css'
+import styles from './DimensionValueChooser.css'
 
 const filterOptions = (options, text) =>
   options.filter(option => option.label.toLowerCase().includes(text.toLowerCase()))
@@ -75,7 +75,7 @@ export default class DimensionValueChooser extends Component {
     this.setState({
       closed: !(
         inputText.length === 0 ||
-        (inputText.length !== 0 && filterOptions(options, inputText).length > 1)
+          (inputText.length !== 0 && filterOptions(options, inputText).length > 1)
       ),
     })
   }
@@ -93,14 +93,14 @@ export default class DimensionValueChooser extends Component {
     }
 
     const inputStyle = {
-      borderRadius: closed ? 4 : '4px 4px 0px 0px',
+      borderRadius: closed ? '4px' : '4px 4px 0px 0px',
     }
 
     return (
-      <div className={styles.dvc_container}>
+      <div className={styles.container}>
         <div>
           <input
-            className={styles.dvc_input}
+            className={styles.inputBox}
             style={inputStyle}
             type="text"
             onChange={this.onChangeInput}
@@ -109,8 +109,8 @@ export default class DimensionValueChooser extends Component {
             value={inputText}
           />
         </div>
-        <div className={styles.dvc_ulWrapper} style={ulWrapperStyle}>
-          <ul className={styles.dvc_ul}>
+        <div className={styles.ulWrapper} style={ulWrapperStyle}>
+          <ul className={styles.ulItem}>
             {filterOptions(options, inputText).map((dimensionValueObject, i) => (
               <ListItem
                 key={i}

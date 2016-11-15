@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { withHandlers, withProps, compose } from 'recompose'
-import styles from './styles.css'
+import styles from './ListItem.css'
 
 const ListItem = ({ index, label, onClick }) => (
   <li className={styles.listElement}>
