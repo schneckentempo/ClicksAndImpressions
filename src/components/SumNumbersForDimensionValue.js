@@ -18,8 +18,8 @@ export default function SumNumbersForDimensionValue({
       <DimensionValueChooser value={value} options={options} onChange={onChange} />
       <p>
       {
-        metrics.map(metricsObject =>
-          <NumberWithLabel label={metricsObject.name} number={metricsObject.sum} />)
+        metrics.map((metricsObject, i) =>
+          <NumberWithLabel key={`nwl_${i}`} label={metricsObject.name} number={metricsObject.sum} />)
       }
       </p>
     </div>

@@ -8,7 +8,7 @@ export default function csvToJson(csv, model) {
   const sortByHeaders = map(model.dimensions, 'header')
 
   const adwordData = sortBy(tail(content).map(row =>
-    zipObject(header, parseRow(row.split(',')))
+    zipObject(header, parseRow(row.split(','), model))
   ), sortByHeaders)
 
   const uniques = uniq(concat(
