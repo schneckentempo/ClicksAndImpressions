@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { find } from 'lodash'
 import ListItem from './ListItem'
+import styles from './styles.css'
 
 const filterOptions = (options, text) =>
   options.filter(option => option.label.toLowerCase().includes(text.toLowerCase()))
@@ -87,47 +88,19 @@ export default class DimensionValueChooser extends Component {
     const { options } = this.props
     const { inputText, closed } = this.state
 
-    const containerStyle = {
-      position: 'relative',
-      width: 300,
-    }
-
-    const ulStyle = {
-      listStyleType: 'none',
-      width: '100%',
-      padding: 0,
-      margin: 0,
-    }
-
     const ulWrapperStyle = {
-      position: 'absolute',
-      boxSizing: 'border-box',
-      top: 27,
-      left: 0,
-      width: '100%',
-      maxHeight: 200,
-      overflow: 'auto',
-      borderRadius: '0px 0px 2px 2px',
-      border: '1px solid #AAAAAA',
-      backgroundColor: '#EFEFEF',
       display: closed ? 'none' : 'block',
     }
 
     const inputStyle = {
-      width: 294,
-      lineHeight: 2,
-      color: '#333333',
-      border: '1px solid #AAAAAA',
       borderRadius: closed ? 4 : '4px 4px 0px 0px',
-      padding: 0,
-      margin: 0,
-      paddingLeft: 4,
     }
 
     return (
-      <div style={containerStyle}>
+      <div className={styles.dvc_container}>
         <div>
           <input
+            className={styles.dvc_input}
             style={inputStyle}
             type="text"
             onChange={this.onChangeInput}
@@ -136,8 +109,8 @@ export default class DimensionValueChooser extends Component {
             value={inputText}
           />
         </div>
-        <div style={ulWrapperStyle}>
-          <ul style={ulStyle}>
+        <div className={styles.dvc_ulWrapper} style={ulWrapperStyle}>
+          <ul className={styles.dvc_ul}>
             {filterOptions(options, inputText).map((dimensionValueObject, i) => (
               <ListItem
                 key={i}
