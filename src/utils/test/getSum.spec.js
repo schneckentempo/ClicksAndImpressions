@@ -16,8 +16,14 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
     }]
 
     const model = {
-      campaign: 0,
-      metric: 1,
+      metrics: [{
+        index: 1,
+        header: 'metric',
+      }],
+      dimensions: [{
+        index: 0,
+        header: 'dimension',
+      }],
     }
 
     expect(getSum(data, 'dimension description 1', 'metric', model)).to.equal(100)
@@ -36,8 +42,14 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
     }]
 
     const model = {
-      campaign: 0,
-      metric: 1,
+      metrics: [{
+        index: 1,
+        header: 'metric',
+      }],
+      dimensions: [{
+        index: 0,
+        header: 'dimension',
+      }],
     }
 
     expect(getSum(data, 'dimension description 2', 'metric', model)).to.equal(20)
@@ -56,24 +68,16 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
     }]
 
     const model = {
-      campaign: 0,
-      metric: 1,
+      metrics: [{
+        index: 1,
+        header: 'metric',
+      }],
+      dimensions: [{
+        index: 0,
+        header: 'dimension',
+      }],
     }
 
     expect(getSum(data, 'dimension description 3', 'metric', model)).to.equal(0)
-  })
-
-  it('should return 0 if it has no campaign/channel defined in the model', () => {
-    const data = [{
-      dimension: 'dimension description 1',
-      metric: 50,
-    }]
-
-    const model = {
-      thisIsNoCampaign: 0,
-      metric: 1,
-    }
-
-    expect(getSum(data, 'dimension description 1', 'metric', model)).to.equal(0)
   })
 })

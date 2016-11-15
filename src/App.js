@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SumNumbersForDimensionValue from './components/SumNumbersForDimensionValue'
 import getSum from './utils/getSum'
 import csvToJson from './utils/csvToJson'
+import dataProvider from './utils/dataProvider'
 import './styles.css'
 
 const axios = require('axios')
@@ -16,14 +17,8 @@ export default class App extends Component {
       selectedDimensionValue: '',
       adwordData: {},
       options: [],
-      sumClicks: 0,
-      sumImpressions: 0,
-      model: {
-        campaign: 0,
-        channel: 1,
-        clicks: 2,
-        impressions: 3,
-      },
+      model: dataProvider('mockbin.org'),
+      sumMetrics: dataProvider('mockbin.org').metrics.map(metricObject => ({ name: metricObject.header, sum: 0 })),
     }
   }
 
@@ -35,10 +30,15 @@ export default class App extends Component {
   }
 
   onChangeDimensionValue = (selectedDimensionValue) => {
-    const sumClicks = getSum(this.state.adwordData, selectedDimensionValue, 'clicks', this.state.model)
-    const sumImpressions = getSum(this.state.adwordData, selectedDimensionValue, 'impressions', this.state.model)
+    const { adwordData, model } = this.state
 
-    this.setState({ selectedDimensionValue, sumClicks, sumImpressions })
+    const sumMetrics = model.metrics.map((metricObject) => {
+      const sum = getSum(adwordData, selectedDimensionValue, metricObject.header, model)
+
+      return { name: metricObject.header, sum }
+    })
+
+    this.setState({ selectedDimensionValue, sumMetrics })
   }
 
   render() {
@@ -48,8 +48,7 @@ export default class App extends Component {
         value={this.state.selectedDimensionValue}
         options={this.state.options}
         onChange={this.onChangeDimensionValue}
-        clicks={this.state.sumClicks}
-        impressions={this.state.sumImpressions}
+        metrics={this.state.sumMetrics}
       />
     )
   }

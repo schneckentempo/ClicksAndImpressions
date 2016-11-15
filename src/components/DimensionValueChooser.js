@@ -113,7 +113,7 @@ export default class DimensionValueChooser extends Component {
           <ul className={styles.ulItem}>
             {filterOptions(options, inputText).map((dimensionValueObject, i) => (
               <ListItem
-                key={i}
+                key={`li_${i}`}
                 index={i}
                 item={dimensionValueObject}
                 onItemClick={this.onClickDimensionValue}

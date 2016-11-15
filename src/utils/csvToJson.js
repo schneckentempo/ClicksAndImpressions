@@ -1,20 +1,19 @@
-import { zipObject, sortBy, tail, concat } from 'lodash'
+import { zipObject, sortBy, tail, concat, map, uniq } from 'lodash'
 import parseRow from './parseRow'
-import getColumn from './getColumn'
-
 
 export default function csvToJson(csv, model) {
   const content = csv.trim().split('\n')
 
   const header = content[0].split(',')
-  const adwordData = sortBy(tail(content).map(row =>
-    zipObject(header, parseRow(row.split(',')))
-  ), ['campaign', 'channel'])
+  const sortByHeaders = map(model.dimensions, 'header')
 
-  const uniques = concat(
-    ...new Set(adwordData.map(item => item[getColumn(item, 'campaign', model)])),
-    ...new Set(adwordData.map(item => item[getColumn(item, 'channel', model)]))
-  )
+  const adwordData = sortBy(tail(content).map(row =>
+    zipObject(header, parseRow(row.split(','), model))
+  ), sortByHeaders)
+
+  const uniques = uniq(concat(
+    ...map(sortByHeaders, headerValue => map(adwordData, item => item[headerValue]))
+  ))
 
   const options = uniques.map(value => ({ value, label: value }))
 

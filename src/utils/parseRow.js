@@ -1,8 +1,12 @@
-export default function parseRow(row) {
-  const parsedRow = [...row]
+export default function parseRow(row, { metrics }) {
+  const parseIndexes = metrics.map(metricObject => metricObject.index)
 
-  parsedRow[2] = parseInt(parsedRow[2], 10)
-  parsedRow[3] = parseInt(parsedRow[3], 10)
+  const parsedRow = row.map((item, i) => {
+    if (parseIndexes.includes(i)) {
+      return parseInt(item, 10)
+    }
+    return item
+  })
 
   return parsedRow
 }
