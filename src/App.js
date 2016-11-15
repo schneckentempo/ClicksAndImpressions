@@ -4,6 +4,7 @@ import getSum from './utils/getSum'
 import csvToJson from './utils/csvToJson'
 import dataProvider from './utils/dataProvider'
 import './styles.css'
+import CsvModelApplier from './components/CsvModelApplier'
 
 const axios = require('axios')
 
@@ -43,13 +44,16 @@ export default class App extends Component {
 
   render() {
     return (
-      <SumNumbersForDimensionValue
-        header="Choose channel or campaign:"
-        value={this.state.selectedDimensionValue}
-        options={this.state.options}
-        onChange={this.onChangeDimensionValue}
-        metrics={this.state.sumMetrics}
-      />
+      <div>
+        <CsvModelApplier />
+        <SumNumbersForDimensionValue
+          header="Choose channel or campaign:"
+          value={this.state.selectedDimensionValue}
+          options={this.state.options}
+          onChange={this.onChangeDimensionValue}
+          metrics={this.state.sumMetrics}
+        />
+      </div>
     )
   }
 }
