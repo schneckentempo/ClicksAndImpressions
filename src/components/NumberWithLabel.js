@@ -1,21 +1,10 @@
 import React from 'react'
+import styles from './NumberWithLabel.css'
 
 export default function NumberWithLabel({ label, number }) {
-  const outerSpanStyle = {
-    marginRight: '1em',
-    display: 'inline',
-  }
-  const innerSpanStyle = {
-    color: '#DD0000',
-    backgroundColor: '#EEEEEE',
-    border: '1px gray',
-    borderRadius: '3px',
-    padding: '0.3em',
-  }
-
   return (
-    <span style={outerSpanStyle}>
-      { label }: <span style={innerSpanStyle}>{ number }</span>
+    <span className={styles.outerSpan}>
+      { label } <span className={styles.innerSpan}>{ number }</span>
     </span>
 )
 }

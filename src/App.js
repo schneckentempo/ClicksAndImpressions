@@ -3,6 +3,7 @@ import SumNumbersForDimensionValue from './components/SumNumbersForDimensionValu
 import getSum from './utils/getSum'
 import csvToJson from './utils/csvToJson'
 import dataProvider from './utils/dataProvider'
+import './styles.css'
 
 const axios = require('axios')
 

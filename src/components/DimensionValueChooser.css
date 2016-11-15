@@ -1,0 +1,39 @@
+:local(.container) {
+  position: relative;
+  width: 300px;
+}
+
+:local(.ulItem) {
+  list-style-type: none;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+:local(.ulWrapper) {
+  position: absolute;
+  box-sizing: border-box;
+  top: 35px;
+  left: 0px;
+  width: 100%;
+  max-height: 200px;
+  overflow: auto;
+  border-radius: 0px 0px 2px 2px;
+  border: 1px solid #AAAAAA;
+  background-color: #EFEFEF;
+}
+
+:local(.inputBox) {
+  width: 288px;
+  font-size: 12px;
+  line-height: 34px;
+  color: #333333;
+  border: 1px solid #AAAAAA;
+  padding: 0px;
+  margin: 0px;
+  padding-left: 10px;
+}
+
+:local(.inputBox:focus) {
+  outline: none;
+}
