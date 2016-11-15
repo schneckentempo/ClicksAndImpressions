@@ -31,9 +31,6 @@ export default class App extends Component {
   onChangeDimensionValue = (selectedDimensionValue) => {
     const { adwordData, model } = this.state
 
-    // const sumClicks = getSum(adwordData, selectedDimensionValue, 'clicks', model)
-    // const sumImpressions = getSum(adwordData, selectedDimensionValue, 'impressions', model)
-
     const sumMetrics = model.metrics.map((metricObject) => {
       const sum = getSum(adwordData, selectedDimensionValue, metricObject.header, model)
 
