@@ -1,55 +1,48 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
 import getSum from '../utils/getSum'
-import csvToJson from '../utils/csvToJson'
-import dataProvider from '../utils/dataProvider'
-
-
-const axios = require('axios')
 
 export default class SumNumbersForDimensionValueWidget extends Component {
-//-------------------------------
-// TODO:
-//-------------------------------
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       selectedDimensionValue: '',
-      adwordData: {},
-      options: [],
-      model: dataProvider('mockbin.org'),
-      sumMetrics: dataProvider('mockbin.org').metrics.map(metricObject => ({ name: metricObject.header, sum: 0 })),
+      sumMetrics: [],
     }
   }
 
-
-  componentDidMount = () => {
-    axios.get('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6').then(response =>
-      this.setState(csvToJson(response.data, this.state.model))
-    )
-  }
-
   onChangeDimensionValue = (selectedDimensionValue) => {
-    const { adwordData, model } = this.state
+    const { adwordData, model } = this.props
 
-    const sumMetrics = model.metrics.map((metricObject) => {
-      const sum = getSum(adwordData, selectedDimensionValue, metricObject.header, model)
+    if (model.metrics) {
+      const sumMetrics = model.metrics.map((metricObject) => {
+        const sum = getSum(adwordData, selectedDimensionValue, metricObject.header, model)
 
-      return { name: metricObject.header, sum }
-    })
+        return { name: metricObject.header, sum }
+      })
 
-    this.setState({ selectedDimensionValue, sumMetrics })
+      this.setState({ selectedDimensionValue, sumMetrics })
+    }
   }
 
   render() {
+    const { selectedDimensionValue, sumMetrics } = this.state
+    const { options } = this.props
+
     return (
       <SumNumbersForDimensionValue
         header="Choose channel or campaign:"
-        value={this.state.selectedDimensionValue}
-        options={this.state.options}
+        value={selectedDimensionValue}
+        options={options}
         onChange={this.onChangeDimensionValue}
-        metrics={this.state.sumMetrics}
+        metrics={sumMetrics}
       />
     )
   }
+}
+
+SumNumbersForDimensionValueWidget.propTypes = {
+  model: PropTypes.objectOf(PropTypes.array),
+  adwordData: PropTypes.arrayOf(PropTypes.object),
+  options: PropTypes.arrayOf(PropTypes.object),
 }
