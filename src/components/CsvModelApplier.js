@@ -15,6 +15,12 @@ export default class CsvModelApplier extends Component {
     }
   }
 
+  componentDidMount = () => {
+    if (this.props.defaultSource !== '') {
+      this.onBlurInput()
+    }
+  }
+
   onBlurInput = () => {
     const dataSource = this.inputField.value
 
