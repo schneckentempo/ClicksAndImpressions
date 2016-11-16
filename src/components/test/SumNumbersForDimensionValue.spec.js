@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import SumNumbersForDimensionValue from '../SumNumbersForDimensionValue'
 
-const wrapper = shallow(<SumNumbersForDimensionValue />)
+const wrapper = shallow(<SumNumbersForDimensionValue metrics={[]} />)
 
 describe('(Component) SumNumbersForDimensionValue', () => {
   it('renders without exploding', () => {

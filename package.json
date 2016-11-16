@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "lint": "./node_modules/eslint/bin/eslint src",
-    "test": "./node_modules/mocha/bin/mocha \"src/**/test/*.spec.js\" --recursive --compilers js:babel-core/register",
+    "test": "./node_modules/mocha/bin/mocha \"src/**/test/*.spec.js\" --recursive --compilers js:babel-core/register --require ignore-styles",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/gaearon/react-hot-boilerplate",
   "devDependencies": {
+    "@kadira/storybook": "^2.21.0",
     "babel-cli": "6.14.0",
     "babel-core": "6.14.0",
     "babel-eslint": "6.1.2",
@@ -49,14 +50,14 @@
     "eslint-plugin-import": "1.15.0",
     "eslint-plugin-jsx-a11y": "2.2.2",
     "eslint-plugin-react": "6.2.2",
+    "ignore-styles": "^5.0.1",
     "mocha": "^3.1.2",
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.1",
     "react-hot-loader": "^1.3.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.1",
-    "@kadira/storybook": "^2.21.0"
+    "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
     "axios": "^0.13.1",
