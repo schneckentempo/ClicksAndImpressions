@@ -41,7 +41,7 @@ export default class CsvModelApplier extends Component {
   }
 
   onClickApply = () => {
-    console.log(JSON.stringify(this.state, undefined, 2))
+    console.log(this.state)
   }
 
   render() {
@@ -67,8 +67,10 @@ export default class CsvModelApplier extends Component {
           className={styles.jsonViewer}
         />
         <button
+          type="button"
           className={styles.applyBtn}
           onClick={this.onClickApply}
+          disabled={this.state.csvData === ''}
         >
           Apply
         </button>
