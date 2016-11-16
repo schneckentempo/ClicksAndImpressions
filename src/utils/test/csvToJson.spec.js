@@ -6,7 +6,7 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
   it('should return the unique options and dataset', () => {
     const csv = 'campaign,channel,clicks,impressions\ncampaign_a,channel_a,185,8760\ncampaign_b,channel_b,203,5966'
 
-    const model = {
+    const mapping = {
       metrics: [{
         index: 2,
         header: 'clicks',
@@ -49,13 +49,13 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       label: 'channel_b',
     }]
 
-    expect(csvToJson(csv, model)).to.eql({ options: resultOptions, adwordData: resultDataset })
+    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, adwordData: resultDataset })
   })
 
   it('should return the unique options and dataset in alphabetical order - first campaigns, then channels', () => {
     const csv = 'campaign,channel,clicks,impressions\ncampaign_b,channel_b,185,8760\ncampaign_a,channel_a,203,5966'
 
-    const model = {
+    const mapping = {
       metrics: [{
         index: 2,
         header: 'clicks',
@@ -98,13 +98,13 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       label: 'channel_b',
     }]
 
-    expect(csvToJson(csv, model)).to.eql({ options: resultOptions, adwordData: resultDataset })
+    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, adwordData: resultDataset })
   })
 
   it('should return an object with empty arrays for options and dataset', () => {
     const csv = ''
 
-    const model = {
+    const mapping = {
       metrics: [{
         index: 2,
         header: 'clicks',
@@ -121,6 +121,6 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       }],
     }
 
-    expect(csvToJson(csv, model)).to.eql({ options: [], adwordData: [] })
+    expect(csvToJson(csv, mapping)).to.eql({ options: [], adwordData: [] })
   })
 })

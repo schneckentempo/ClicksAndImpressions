@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import { expect } from 'chai'
 import CsvModelApplier from '../CsvModelApplier'
 
-const wrapper = shallow(<CsvModelApplier defaultSource="" />)
+const wrapper = shallow(<CsvModelApplier defaultDataSource="" />)
 
 describe('(Component) CsvModelApplier', () => {
   it('renders without exploding', () => {

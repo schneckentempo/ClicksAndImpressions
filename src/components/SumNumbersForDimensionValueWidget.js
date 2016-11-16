@@ -12,11 +12,11 @@ export default class SumNumbersForDimensionValueWidget extends Component {
   }
 
   onChangeDimensionValue = (selectedDimensionValue) => {
-    const { adwordData, model } = this.props
+    const { adwordData, mapping } = this.props
 
-    if (model.metrics) {
-      const sumMetrics = model.metrics.map((metricObject) => {
-        const sum = getSum(adwordData, selectedDimensionValue, metricObject.header, model)
+    if (mapping.metrics) {
+      const sumMetrics = mapping.metrics.map((metricObject) => {
+        const sum = getSum(adwordData, selectedDimensionValue, metricObject.header, mapping)
 
         return { name: metricObject.header, sum }
       })
@@ -42,7 +42,7 @@ export default class SumNumbersForDimensionValueWidget extends Component {
 }
 
 SumNumbersForDimensionValueWidget.propTypes = {
-  model: PropTypes.objectOf(PropTypes.array),
+  mapping: PropTypes.objectOf(PropTypes.array),
   adwordData: PropTypes.arrayOf(PropTypes.object),
   options: PropTypes.arrayOf(PropTypes.object),
 }

@@ -9,15 +9,15 @@ export default class App extends Component {
     super()
     this.state = {
       csvData: '',
-      model: {},
+      mapping: {},
       adwordData: [],
       options: [],
     }
   }
 
-  handleApply = (csvData, model) => {
-    const { options, adwordData } = csvToJson(csvData, model)
-    this.setState({ csvData, model, adwordData, options })
+  handleApply = (csvData, mapping) => {
+    const { options, adwordData } = csvToJson(csvData, mapping)
+    this.setState({ csvData, mapping, adwordData, options })
   }
 
   render() {
@@ -27,7 +27,7 @@ export default class App extends Component {
         <SumNumbersForDimensionValueWidget
           adwordData={this.state.adwordData}
           options={this.state.options}
-          model={this.state.model}
+          mapping={this.state.mapping}
         />
       </div>
     )
