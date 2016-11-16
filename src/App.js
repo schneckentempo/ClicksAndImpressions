@@ -45,7 +45,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <CsvModelApplier />
+        <CsvModelApplier defaultSource="" />
         <SumNumbersForDimensionValue
           header="Choose channel or campaign:"
           value={this.state.selectedDimensionValue}
