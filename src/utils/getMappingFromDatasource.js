@@ -1,5 +1,5 @@
-export default function getDatamodel(domain) {
-  if (domain.includes('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6')) {
+export default function getDatamodel(datasource) {
+  if (datasource.includes('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6')) {
     const model = {
       metrics: [{
         index: 2,

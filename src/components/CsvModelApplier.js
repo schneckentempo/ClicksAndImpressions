@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import HeaderText from './HeaderText'
 import styles from './CsvModelApplier.css'
-import dataProvider from '../utils/dataProvider'
+import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
 const axios = require('axios')
 
@@ -9,7 +9,7 @@ export default class CsvModelApplier extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dataModel: JSON.stringify(dataProvider(props.defaultSource), undefined, 2),
+      mapping: JSON.stringify(getMappingFromDatasource(props.defaultDataSource), undefined, 2),
       csvData: '',
       badRequest: false,
       badModel: false,
@@ -17,9 +17,9 @@ export default class CsvModelApplier extends Component {
   }
 
   componentDidMount = () => {
-    const { defaultSource } = this.props
+    const { defaultDataSource } = this.props
 
-    if (defaultSource !== '') {
+    if (defaultDataSource !== '') {
       this.fetchData()
     }
   }
@@ -29,16 +29,16 @@ export default class CsvModelApplier extends Component {
   }
 
   onChangeTextarea = () => {
-    const dataModel = this.textareaField.value
+    const mapping = this.textareaField.value
 
-    this.setState({ dataModel })
+    this.setState({ mapping })
   }
 
   onClickApply = () => {
-    const { csvData, dataModel } = this.state
+    const { csvData, mapping } = this.state
 
     try {
-      this.props.onApply(csvData, JSON.parse(dataModel))
+      this.props.onApply(csvData, JSON.parse(mapping))
       this.setState({ badModel: false })
     } catch (e) {
       this.setState({ badModel: true })
@@ -50,22 +50,22 @@ export default class CsvModelApplier extends Component {
 
     axios.get(dataSource).then((response) => {
       const csvData = response.data
-      const dataModel = response.data !== '' ? JSON.stringify(dataProvider(dataSource), undefined, 2) : '{}'
+      const mapping = response.data !== '' ? JSON.stringify(getMappingFromDatasource(dataSource), undefined, 2) : '{}'
 
       if (csvData !== '') {
-        this.setState({ dataModel, csvData, badRequest: false })
+        this.setState({ mapping, csvData, badRequest: false })
       } else {
-        this.setState({ dataModel: '{}', csvData, badRequest: true })
+        this.setState({ mapping: '{}', csvData, badRequest: true })
       }
     })
     .catch(() => {
-      this.setState({ dataModel: '{}', csvData: '', badRequest: true })
+      this.setState({ mapping: '{}', csvData: '', badRequest: true })
     })
   }
 
   render() {
-    const { badRequest, badModel, dataModel, csvData } = this.state
-    const { defaultSource } = this.props
+    const { badRequest, badModel, mapping, csvData } = this.state
+    const { defaultDataSource } = this.props
 
     const badRequestStyle = {
       outline: badRequest ? '2px solid red' : '',
@@ -79,7 +79,7 @@ export default class CsvModelApplier extends Component {
         <HeaderText text="Choose data-source:" />
         <input
           ref={(ref) => { this.inputField = ref }}
-          defaultValue={defaultSource}
+          defaultValue={defaultDataSource}
           onBlur={this.onBlurInput}
           type="text"
           className={styles.sourceInput}
@@ -87,7 +87,7 @@ export default class CsvModelApplier extends Component {
         />
         <textarea
           ref={(ref) => { this.textareaField = ref }}
-          value={dataModel}
+          value={mapping}
           onChange={this.onChangeTextarea}
           className={styles.jsonViewer}
           style={badModelStyle}
@@ -106,6 +106,6 @@ export default class CsvModelApplier extends Component {
 }
 
 CsvModelApplier.propTypes = {
-  defaultSource: PropTypes.string,
+  defaultDataSource: PropTypes.string,
   onApply: PropTypes.func,
 }
