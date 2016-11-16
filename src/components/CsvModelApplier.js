@@ -9,7 +9,6 @@ export default class CsvModelApplier extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dataSource: props.defaultSource,
       dataModel: JSON.stringify(dataProvider(props.defaultSource), undefined, 2),
       csvData: '',
       badRequest: false,
@@ -24,13 +23,13 @@ export default class CsvModelApplier extends Component {
       const dataModel = response.data !== '' ? JSON.stringify(dataProvider(dataSource), undefined, 2) : '{}'
 
       if (csvData !== '') {
-        this.setState({ dataSource, dataModel, csvData, badRequest: false })
+        this.setState({ dataModel, csvData, badRequest: false })
       } else {
-        this.setState({ dataSource: '', dataModel: '{}', csvData: '', badRequest: true })
+        this.setState({ dataModel: '{}', csvData, badRequest: true })
       }
     })
     .catch(() => {
-      this.setState({ dataSource: '', dataModel: '{}', csvData: '', badRequest: true })
+      this.setState({ dataModel: '{}', csvData: '', badRequest: true })
     })
   }
 
