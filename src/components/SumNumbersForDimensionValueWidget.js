@@ -20,7 +20,7 @@ export default class SumNumbersForDimensionValueWidget extends Component {
         ({ name: metricObject.header, sum: 0 })
       )
 
-      this.setState({ sumMetrics })
+      this.setState({ selectedDimensionValue: '', sumMetrics })
     }
   }
 
