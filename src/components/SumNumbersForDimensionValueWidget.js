@@ -39,13 +39,13 @@ export default class SumNumbersForDimensionValueWidget extends Component {
 
   render() {
     const { selectedDimensionValue, sumMetrics } = this.state
-    const { options } = this.props
+    const { dimensionValues } = this.props
 
     return (
       <SumNumbersForDimensionValue
         header="Choose channel or campaign:"
         value={selectedDimensionValue}
-        options={options}
+        dimensionValues={dimensionValues}
         onChange={this.onChangeDimensionValue}
         metrics={sumMetrics}
       />
@@ -56,5 +56,5 @@ export default class SumNumbersForDimensionValueWidget extends Component {
 SumNumbersForDimensionValueWidget.propTypes = {
   mapping: PropTypes.objectOf(PropTypes.array),
   normalizedCsv: PropTypes.arrayOf(PropTypes.object),
-  options: PropTypes.arrayOf(PropTypes.object),
+  dimensionValues: PropTypes.arrayOf(PropTypes.object),
 }

@@ -7,15 +7,15 @@ import DimensionValueChooser from './DimensionValueChooser'
 export default function SumNumbersForDimensionValue({
   header,
   value,
-  options,
+  dimensionValues,
   onChange,
   metrics,
 }) {
   return (
     <div>
       <HeaderText text={header} />
-      <DimensionValueSelect value={value} options={options} onChange={onChange} />
-      <DimensionValueChooser value={value} options={options} onChange={onChange} />
+      <DimensionValueSelect value={value} options={dimensionValues} onChange={onChange} />
+      <DimensionValueChooser value={value} options={dimensionValues} onChange={onChange} />
       <p>
       {
         metrics.map((metricsObject, i) =>
@@ -29,7 +29,7 @@ export default function SumNumbersForDimensionValue({
 SumNumbersForDimensionValue.propTypes = {
   header: React.PropTypes.string,
   value: React.PropTypes.string,
-  options: React.PropTypes.arrayOf(React.PropTypes.object),
+  dimensionValues: React.PropTypes.arrayOf(React.PropTypes.object),
   onChange: React.PropTypes.func,
   metrics: React.PropTypes.arrayOf(React.PropTypes.object),
 }

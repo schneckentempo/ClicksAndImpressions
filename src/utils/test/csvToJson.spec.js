@@ -2,8 +2,8 @@ import { expect } from 'chai'
 import { describe, it } from 'mocha'
 import csvToJson from '../csvToJson'
 
-describe('csvToJson transforms a CSV into a JSON-dataset and returns unique options (channels and campaigns) and the given dataset', () => {
-  it('should return the unique options and dataset', () => {
+describe('csvToJson transforms a CSV into a JSON-dataset and returns unique dimensionValues (channels and campaigns) and the given dataset', () => {
+  it('should return the unique dimensionValues and dataset', () => {
     const csv = 'campaign,channel,clicks,impressions\ncampaign_a,channel_a,185,8760\ncampaign_b,channel_b,203,5966'
 
     const mapping = {
@@ -49,10 +49,12 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       label: 'channel_b',
     }]
 
-    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, normalizedCsv: resultDataset })
+    expect(csvToJson(csv, mapping)).to.eql(
+      { dimensionValues: resultOptions, normalizedCsv: resultDataset }
+    )
   })
 
-  it('should return the unique options and dataset in alphabetical order - first campaigns, then channels', () => {
+  it('should return the unique dimensionValues and dataset in alphabetical order - first campaigns, then channels', () => {
     const csv = 'campaign,channel,clicks,impressions\ncampaign_b,channel_b,185,8760\ncampaign_a,channel_a,203,5966'
 
     const mapping = {
@@ -98,10 +100,10 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       label: 'channel_b',
     }]
 
-    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, normalizedCsv: resultDataset })
+    expect(csvToJson(csv, mapping)).to.eql({ dimensionValues: resultOptions, normalizedCsv: resultDataset })
   })
 
-  it('should return an object with empty arrays for options and dataset', () => {
+  it('should return an object with empty arrays for dimensionValues and dataset', () => {
     const csv = ''
 
     const mapping = {
@@ -121,6 +123,6 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       }],
     }
 
-    expect(csvToJson(csv, mapping)).to.eql({ options: [], normalizedCsv: [] })
+    expect(csvToJson(csv, mapping)).to.eql({ dimensionValues: [], normalizedCsv: [] })
   })
 })
