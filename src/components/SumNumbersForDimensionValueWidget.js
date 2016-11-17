@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { isEqual } from 'lodash'
 import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
 import getSum from '../utils/getSum'
 
@@ -8,6 +9,18 @@ export default class SumNumbersForDimensionValueWidget extends Component {
     this.state = {
       selectedDimensionValue: '',
       sumMetrics: [],
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const { mapping } = this.props
+
+    if (!isEqual(mapping, nextProps.mapping)) {
+      const sumMetrics = nextProps.mapping.metrics.map(metricObject =>
+        ({ name: metricObject.header, sum: 0 })
+      )
+
+      this.setState({ sumMetrics })
     }
   }
 
