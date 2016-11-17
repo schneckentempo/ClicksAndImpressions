@@ -1,16 +1,16 @@
 import { sum, map, some } from 'lodash'
 
-function hasMatchingProperty(dimensions, normalizedDataRow, value) {
-  return some(dimensions, dim => normalizedDataRow[dim] === value)
+function hasMatchingProperty(dimensions, normalizedCsvRow, value) {
+  return some(dimensions, dim => normalizedCsvRow[dim] === value)
 }
 
-export default function getSum(normalizedData, value, col, mapping) {
+export default function getSum(normalizedCsv, value, col, mapping) {
   const dimensions = mapping.dimensions.map(dimension => dimension.header)
 
   const sumTotal = sum(
-    map(normalizedData, (normalizedDataRow) => {
-      if (hasMatchingProperty(dimensions, normalizedDataRow, value)) {
-        return normalizedDataRow[col]
+    map(normalizedCsv, (normalizedCsvRow) => {
+      if (hasMatchingProperty(dimensions, normalizedCsvRow, value)) {
+        return normalizedCsvRow[col]
       }
 
       return 0
