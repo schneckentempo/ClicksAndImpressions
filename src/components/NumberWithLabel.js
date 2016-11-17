@@ -4,7 +4,7 @@ import styles from './NumberWithLabel.css'
 export default function NumberWithLabel({ label, number }) {
   return (
     <span className={styles.outerSpan}>
-      { label } <span className={styles.innerSpan}>{ number }</span>
+      { label }: <span className={styles.innerSpan}>{ number }</span>
     </span>
 )
 }

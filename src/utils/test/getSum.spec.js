@@ -15,7 +15,7 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
       metric: 20,
     }]
 
-    const model = {
+    const mapping = {
       metrics: [{
         index: 1,
         header: 'metric',
@@ -26,7 +26,7 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
       }],
     }
 
-    expect(getSum(data, 'dimension description 1', 'metric', model)).to.equal(100)
+    expect(getSum(data, 'dimension description 1', 'metric', mapping)).to.equal(100)
   })
 
   it('should return 20 for "dimension description 2"', () => {
@@ -41,7 +41,7 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
       metric: 20,
     }]
 
-    const model = {
+    const mapping = {
       metrics: [{
         index: 1,
         header: 'metric',
@@ -52,7 +52,7 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
       }],
     }
 
-    expect(getSum(data, 'dimension description 2', 'metric', model)).to.equal(20)
+    expect(getSum(data, 'dimension description 2', 'metric', mapping)).to.equal(20)
   })
 
   it('should return 0 for "dimension description 3"', () => {
@@ -67,7 +67,7 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
       metric: 20,
     }]
 
-    const model = {
+    const mapping = {
       metrics: [{
         index: 1,
         header: 'metric',
@@ -78,6 +78,6 @@ describe('getSum delivers sum of metrics for all given dimensions campaign/chann
       }],
     }
 
-    expect(getSum(data, 'dimension description 3', 'metric', model)).to.equal(0)
+    expect(getSum(data, 'dimension description 3', 'metric', mapping)).to.equal(0)
   })
 })

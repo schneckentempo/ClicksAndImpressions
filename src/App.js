@@ -1,55 +1,36 @@
 import React, { Component } from 'react'
-import SumNumbersForDimensionValue from './components/SumNumbersForDimensionValue'
-import getSum from './utils/getSum'
+import CsvMappingApplier from './components/CsvMappingApplier'
+import SumNumbersForDimensionValueWidget from './components/SumNumbersForDimensionValueWidget'
 import csvToJson from './utils/csvToJson'
-import dataProvider from './utils/dataProvider'
 import './styles.css'
 
-const axios = require('axios')
-
 export default class App extends Component {
-//-------------------------------
-// TODO:
-//-------------------------------
   constructor() {
     super()
     this.state = {
-      selectedDimensionValue: '',
-      adwordData: {},
+      csvData: '',
+      mapping: {},
+      normalizedCsv: [],
       options: [],
-      model: dataProvider('mockbin.org'),
-      sumMetrics: dataProvider('mockbin.org').metrics.map(metricObject => ({ name: metricObject.header, sum: 0 })),
     }
   }
 
-
-  componentDidMount = () => {
-    axios.get('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6').then(response =>
-      this.setState(csvToJson(response.data, this.state.model))
-    )
-  }
-
-  onChangeDimensionValue = (selectedDimensionValue) => {
-    const { adwordData, model } = this.state
-
-    const sumMetrics = model.metrics.map((metricObject) => {
-      const sum = getSum(adwordData, selectedDimensionValue, metricObject.header, model)
-
-      return { name: metricObject.header, sum }
-    })
-
-    this.setState({ selectedDimensionValue, sumMetrics })
+  handleApply = (csvData, mapping) => {
+    const { options, normalizedCsv } = csvToJson(csvData, mapping)
+    this.setState({ csvData, mapping, normalizedCsv, options })
   }
 
   render() {
+    const { normalizedCsv, options, mapping } = this.state
     return (
-      <SumNumbersForDimensionValue
-        header="Choose channel or campaign:"
-        value={this.state.selectedDimensionValue}
-        options={this.state.options}
-        onChange={this.onChangeDimensionValue}
-        metrics={this.state.sumMetrics}
-      />
+      <div>
+        <CsvMappingApplier defaultDataSource="http://mockbin.org/bin/ee7a13ae-4732-445d-ac76-27bc8e74edc5" onApply={this.handleApply} />
+        <SumNumbersForDimensionValueWidget
+          normalizedCsv={normalizedCsv}
+          options={options}
+          mapping={mapping}
+        />
+      </div>
     )
   }
 }

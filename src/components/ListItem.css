@@ -13,3 +13,8 @@
   padding: 0px;
   margin: 0px;
 }
+
+:local(.listButton:hover) {
+  color: black;
+  background-color: #EFEFEF;
+}
