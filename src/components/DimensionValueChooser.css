@@ -20,7 +20,7 @@
   overflow: auto;
   border-radius: 0px 0px 2px 2px;
   border: 1px solid #AAAAAA;
-  background-color: #EFEFEF;
+  background-color: white;
 }
 
 :local(.inputBox) {
@@ -36,4 +36,13 @@
 
 :local(.inputBox:focus) {
   outline: none;
+}
+
+:local(.noResults) {
+  box-sizing: border-box;
+  display: block;
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+  color: #555555;
 }

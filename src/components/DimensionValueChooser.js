@@ -111,16 +111,22 @@ export default class DimensionValueChooser extends Component {
         </div>
         <div className={styles.ulWrapper} style={ulWrapperStyle}>
           <ul className={styles.ulItem}>
-            {filterOptions(options, inputText).map((dimensionValueObject, i) => (
-              <ListItem
-                key={`li_${i}`}
-                index={i}
-                item={dimensionValueObject}
-                onItemClick={this.onClickDimensionValue}
-              />
+            {options.length > 0 &&
+              filterOptions(options, inputText).map((dimensionValueObject, i) => (
+                <ListItem
+                  key={`li_${i}`}
+                  index={i}
+                  item={dimensionValueObject}
+                  onItemClick={this.onClickDimensionValue}
+                />
+                )
               )
-            )
-          }
+            }
+            {(options.length === 0 || filterOptions(options, inputText).length === 0) &&
+              <div className={styles.noResults}>
+                No results found
+              </div>
+            }
           </ul>
         </div>
       </div>

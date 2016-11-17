@@ -4,7 +4,8 @@ import parseRow from './parseRow'
 export default function csvToJson(csv, mapping) {
   const content = csv.trim().split('\n')
 
-  const header = content[0].split(',')
+  const header = map(sortBy(concat(mapping.metrics, mapping.dimensions), ['index']), 'header')
+
   const sortByHeaders = map(mapping.dimensions, 'header')
 
   const adwordData = sortBy(tail(content).map(row =>
