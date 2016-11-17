@@ -49,7 +49,7 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       label: 'channel_b',
     }]
 
-    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, adwordData: resultDataset })
+    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, normalizedData: resultDataset })
   })
 
   it('should return the unique options and dataset in alphabetical order - first campaigns, then channels', () => {
@@ -98,7 +98,7 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       label: 'channel_b',
     }]
 
-    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, adwordData: resultDataset })
+    expect(csvToJson(csv, mapping)).to.eql({ options: resultOptions, normalizedData: resultDataset })
   })
 
   it('should return an object with empty arrays for options and dataset', () => {
@@ -121,6 +121,6 @@ describe('csvToJson transforms a CSV into a JSON-dataset and returns unique opti
       }],
     }
 
-    expect(csvToJson(csv, mapping)).to.eql({ options: [], adwordData: [] })
+    expect(csvToJson(csv, mapping)).to.eql({ options: [], normalizedData: [] })
   })
 })

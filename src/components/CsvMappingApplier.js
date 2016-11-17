@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import HeaderText from './HeaderText'
 import styles from './CsvMappingApplier.css'
-import getMappingFromDatasource from '../utils/getMappingFromDatasource'
+import getDataMapping from '../utils/getMappingFromDatasource'
 
 const axios = require('axios')
 
@@ -9,7 +9,7 @@ export default class CsvMappingApplier extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      mapping: JSON.stringify(getMappingFromDatasource(props.defaultDataSource), undefined, 2),
+      mapping: JSON.stringify(getDataMapping(props.defaultDataSource), undefined, 2),
       csvData: '',
       badRequest: false,
       badMapping: false,
@@ -36,9 +36,10 @@ export default class CsvMappingApplier extends Component {
 
   onClickApply = () => {
     const { csvData, mapping } = this.state
+    const { onApply } = this.props
 
     try {
-      this.props.onApply(csvData, JSON.parse(mapping))
+      onApply(csvData, JSON.parse(mapping))
       this.setState({ badMapping: false })
     } catch (e) {
       this.setState({ badMapping: true })
@@ -50,7 +51,7 @@ export default class CsvMappingApplier extends Component {
 
     axios.get(dataSource).then((response) => {
       const csvData = response.data
-      const mapping = response.data !== '' ? JSON.stringify(getMappingFromDatasource(dataSource), undefined, 2) : '{}'
+      const mapping = response.data !== '' ? JSON.stringify(getDataMapping(dataSource), undefined, 2) : '{}'
 
       if (csvData !== '') {
         this.setState({ mapping, csvData, badRequest: false })

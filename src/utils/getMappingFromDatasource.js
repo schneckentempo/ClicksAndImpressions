@@ -1,4 +1,4 @@
-export default function getDatamapping(datasource) {
+export default function getDataMapping(datasource) {
   if (datasource.includes('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6')) {
     const mapping = {
       metrics: [{

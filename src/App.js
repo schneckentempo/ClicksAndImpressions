@@ -10,24 +10,25 @@ export default class App extends Component {
     this.state = {
       csvData: '',
       mapping: {},
-      adwordData: [],
+      normalizedData: [],
       options: [],
     }
   }
 
   handleApply = (csvData, mapping) => {
-    const { options, adwordData } = csvToJson(csvData, mapping)
-    this.setState({ csvData, mapping, adwordData, options })
+    const { options, normalizedData } = csvToJson(csvData, mapping)
+    this.setState({ csvData, mapping, normalizedData, options })
   }
 
   render() {
+    const { normalizedData, options, mapping } = this.state
     return (
       <div>
         <CsvMappingApplier defaultDataSource="http://mockbin.org/bin/ee7a13ae-4732-445d-ac76-27bc8e74edc5" onApply={this.handleApply} />
         <SumNumbersForDimensionValueWidget
-          adwordData={this.state.adwordData}
-          options={this.state.options}
-          mapping={this.state.mapping}
+          normalizedData={normalizedData}
+          options={options}
+          mapping={mapping}
         />
       </div>
     )
