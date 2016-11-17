@@ -1,18 +1,18 @@
 import React, { Component, PropTypes } from 'react'
 import HeaderText from './HeaderText'
-import styles from './CsvModelApplier.css'
+import styles from './CsvMappingApplier.css'
 import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
 const axios = require('axios')
 
-export default class CsvModelApplier extends Component {
+export default class CsvMappingApplier extends Component {
   constructor(props) {
     super(props)
     this.state = {
       mapping: JSON.stringify(getMappingFromDatasource(props.defaultDataSource), undefined, 2),
       csvData: '',
       badRequest: false,
-      badModel: false,
+      badMapping: false,
     }
   }
 
@@ -39,9 +39,9 @@ export default class CsvModelApplier extends Component {
 
     try {
       this.props.onApply(csvData, JSON.parse(mapping))
-      this.setState({ badModel: false })
+      this.setState({ badMapping: false })
     } catch (e) {
-      this.setState({ badModel: true })
+      this.setState({ badMapping: true })
     }
   }
 
@@ -64,14 +64,14 @@ export default class CsvModelApplier extends Component {
   }
 
   render() {
-    const { badRequest, badModel, mapping, csvData } = this.state
+    const { badRequest, badMapping, mapping, csvData } = this.state
     const { defaultDataSource } = this.props
 
     const badRequestStyle = {
       outline: badRequest ? '2px solid red' : '',
     }
-    const badModelStyle = {
-      outline: badModel ? '2px solid red' : '',
+    const badMappingStyle = {
+      outline: badMapping ? '2px solid red' : '',
     }
 
     return (
@@ -80,7 +80,7 @@ export default class CsvModelApplier extends Component {
         <input
           ref={(ref) => { this.inputField = ref }}
           defaultValue={defaultDataSource}
-          onBlur={this.onBlurInput}
+          onBlur={this.onBlur}
           type="text"
           className={styles.sourceInput}
           style={badRequestStyle}
@@ -90,7 +90,7 @@ export default class CsvModelApplier extends Component {
           value={mapping}
           onChange={this.onChangeTextarea}
           className={styles.jsonViewer}
-          style={badModelStyle}
+          style={badMappingStyle}
         />
         <button
           type="button"
@@ -105,7 +105,7 @@ export default class CsvModelApplier extends Component {
   }
 }
 
-CsvModelApplier.propTypes = {
+CsvMappingApplier.propTypes = {
   defaultDataSource: PropTypes.string,
   onApply: PropTypes.func,
 }

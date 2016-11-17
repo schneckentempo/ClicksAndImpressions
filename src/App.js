@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import CsvModelApplier from './components/CsvModelApplier'
+import CsvMappingApplier from './components/CsvMappingApplier'
 import SumNumbersForDimensionValueWidget from './components/SumNumbersForDimensionValueWidget'
 import csvToJson from './utils/csvToJson'
 import './styles.css'
@@ -23,7 +23,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <CsvModelApplier defaultDataSource="http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6" onApply={this.handleApply} />
+        <CsvMappingApplier defaultDataSource="http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6" onApply={this.handleApply} />
         <SumNumbersForDimensionValueWidget
           adwordData={this.state.adwordData}
           options={this.state.options}

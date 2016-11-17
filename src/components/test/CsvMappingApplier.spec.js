@@ -1,11 +1,11 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import CsvModelApplier from '../CsvModelApplier'
+import CsvMappingApplier from '../CsvMappingApplier'
 
-const wrapper = shallow(<CsvModelApplier defaultDataSource="" />)
+const wrapper = shallow(<CsvMappingApplier defaultDataSource="" />)
 
-describe('(Component) CsvModelApplier', () => {
+describe('(Component) CsvMappingApplier', () => {
   it('renders without exploding', () => {
     expect(wrapper).to.have.length(1)
   })
