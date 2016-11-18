@@ -1,1 +1,2 @@
 export const APPLY_DATA = 'APPLY_DATA'
+export const DATA_BAD_REQUEST = 'DATA_BAD_REQUEST'

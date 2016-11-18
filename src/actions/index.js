@@ -6,9 +6,18 @@ export const applyData = (csvData, mapping) => {
 
   return {
     type: types.APPLY_DATA,
-    csvData,
     mapping,
     normalizedCsv,
     dimensionValues,
   }
 }
+
+export const fetchDataBadRequest = badRequest => ({
+  type: types.DATA_BAD_REQUEST,
+  badRequest,
+})
+
+export const parseDataMappingError = badMapping => ({
+  type: types.DATA_BAD_MAPPING,
+  badMapping,
+})

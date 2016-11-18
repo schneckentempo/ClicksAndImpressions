@@ -1,17 +1,20 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import HeaderText from './HeaderText'
 import styles from './CsvMappingApplier.css'
 import getMappingFromDatasource from '../utils/getMappingFromDatasource'
+import { fetchDataBadRequest, parseDataMappingError } from '../actions'
 
 const axios = require('axios')
 
-export default class CsvMappingApplier extends Component {
+class CsvMappingApplier extends Component {
   constructor(props) {
+    console.log(props.defaultDataSource)
     super(props)
     this.state = {
-      mapping: JSON.stringify(getMappingFromDatasource(props.defaultDataSource), undefined, 2),
+      mapping: JSON.stringify(props.mapping, undefined, 2),
       csvData: '',
-      badRequest: false,
+      // badRequest: false,
       badMapping: false,
     }
   }
@@ -54,20 +57,19 @@ export default class CsvMappingApplier extends Component {
       const mapping = response.data !== '' ? JSON.stringify(getMappingFromDatasource(dataSource), undefined, 2) : '{}'
 
       if (csvData !== '') {
-        this.setState({ mapping, csvData, badRequest: false })
+        this.setState({ mapping, csvData })
       } else {
-        this.setState({ mapping: '{}', csvData, badRequest: true })
+        this.setState({ mapping: '{}', csvData })
       }
     })
     .catch(() => {
-      this.setState({ mapping: '{}', csvData: '', badRequest: true })
+      this.setState({ mapping: '{}', csvData: '' })
     })
   }
 
   render() {
-    const { badRequest, badMapping, mapping, csvData } = this.state
-    const { defaultDataSource } = this.props
-
+    const { mapping, csvData, badMapping } = this.state
+    const { badRequest, defaultDataSource } = this.props
     const badRequestStyle = {
       outline: badRequest ? '2px solid red' : '',
     }
@@ -106,7 +108,16 @@ export default class CsvMappingApplier extends Component {
   }
 }
 
+const mapStateToProps = ({ csvMapping: { badRequest } }) => ({
+  badRequest,
+})
+
+export default connect(mapStateToProps)(CsvMappingApplier)
+
 CsvMappingApplier.propTypes = {
   defaultDataSource: PropTypes.string,
   onApply: PropTypes.func,
+  badRequest: PropTypes.bool,
+  mapping: PropTypes.objectOf(PropTypes.array),
+  badRequest: PropTypes.bool,
 }

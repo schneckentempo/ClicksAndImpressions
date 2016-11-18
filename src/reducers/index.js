@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import csvDataReducer from './csvDataReducer'
+import dataSource from './dataSource'
+import csvMapping from './csvMapping'
 
 const dimensionMetricsViewerApp = combineReducers({
-  csvDataReducer,
+  dataSource,
+  csvMapping,
 })
 
 export default dimensionMetricsViewerApp

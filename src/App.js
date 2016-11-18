@@ -5,9 +5,9 @@ import SumNumbersForDimensionValueWidget from './components/SumNumbersForDimensi
 import { applyData } from './actions'
 import './styles.css'
 
-const App = ({ normalizedCsv, dimensionValues, mapping, onApply }) => (
+const App = ({ normalizedCsv, dimensionValues, mapping, onApply, defaultDataSource }) => (
   <div>
-    <CsvMappingApplier defaultDataSource="http://mockbin.org/bin/ee7a13ae-4732-445d-ac76-27bc8e74edc5" onApply={onApply} />
+    <CsvMappingApplier defaultDataSource={defaultDataSource} onApply={onApply} mapping={mapping} />
     <SumNumbersForDimensionValueWidget
       normalizedCsv={normalizedCsv}
       dimensionValues={dimensionValues}
@@ -16,10 +16,21 @@ const App = ({ normalizedCsv, dimensionValues, mapping, onApply }) => (
   </div>
 )
 
-const mapStateToProps = ({ normalizedCsv, dimensionValues, mapping }) => ({
+const mapStateToProps = (
+  {
+    dataSource:
+      {
+        normalizedCsv,
+        dimensionValues,
+        mapping,
+        defaultDataSource,
+      },
+  }
+) => ({
   normalizedCsv,
   dimensionValues,
   mapping,
+  defaultDataSource,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -33,4 +44,5 @@ App.propTypes = {
   normalizedCsv: PropTypes.arrayOf(PropTypes.object),
   dimensionValues: PropTypes.arrayOf(PropTypes.object),
   onApply: PropTypes.func,
+  defaultDataSource: PropTypes.string,
 }
