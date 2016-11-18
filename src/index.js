@@ -1,34 +1,21 @@
 import React from 'react'
-import { createStore } from 'redux'
-import ReactDOM from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import { render } from 'react-dom'
+import thunk from 'redux-thunk'
 import App from './App'
+import reducer from './reducers/csvDataReducer'
 
-const initialState = {
-  csvData: '',
-  mapping: {},
-  normalizedCsv: [],
-  dimensionValues: [],
-}
-
-// reducer
-const dataReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'APPLY_DATA':
-      return {
-        csvData: action.csvData,
-        mapping: action.mapping,
-        normalizedCsv: action.normalizedCsv,
-        dimensionValues: action.dimensionValues,
-      }
-    default:
-      return state
-  }
-}
-
-const store = createStore(dataReducer)
+// 2. arg of createStore should be initial State - put here or in reducer?
+const store = createStore(reducer, applyMiddleware(thunk))
 
 store.subscribe(() =>
   console.log(store.getState())
 )
 
-ReactDOM.render(<App store={store} />, document.getElementById('root'))
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
