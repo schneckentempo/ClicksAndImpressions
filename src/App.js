@@ -18,13 +18,14 @@ const App = ({ normalizedCsv, dimensionValues, mapping, onApply, defaultDataSour
 
 const mapStateToProps = (
   {
-    dataSource:
-      {
-        normalizedCsv,
-        dimensionValues,
-        mapping,
-        defaultDataSource,
-      },
+    dataSource: {
+      normalizedCsv,
+      dimensionValues,
+    },
+    csvMapping: {
+      mapping,
+      defaultDataSource,
+    },
   }
 ) => ({
   normalizedCsv,

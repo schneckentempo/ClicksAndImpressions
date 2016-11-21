@@ -1,80 +1,54 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import HeaderText from './HeaderText'
+import JsonTextarea from './JsonTextarea'
 import styles from './CsvMappingApplier.css'
-import getMappingFromDatasource from '../utils/getMappingFromDatasource'
-import { fetchDataBadRequest, parseDataMappingError } from '../actions'
-
-const axios = require('axios')
+import { fetchCsvData } from '../actions'
 
 class CsvMappingApplier extends Component {
   constructor(props) {
-    console.log(props.defaultDataSource)
     super(props)
     this.state = {
-      mapping: JSON.stringify(props.mapping, undefined, 2),
-      csvData: '',
-      // badRequest: false,
+      unparsedMapping: '',
       badMapping: false,
     }
   }
 
   componentDidMount = () => {
-    const { defaultDataSource } = this.props
+    const { fetchData, defaultDataSource } = this.props
 
     if (defaultDataSource !== '') {
-      this.fetchData()
+      fetchData(defaultDataSource)
     }
   }
 
-  onBlurInput = () => {
-    this.fetchData()
+  onChangeJsonTextarea = (unparsedMapping) => {
+    this.setState({ unparsedMapping })
   }
 
-  onChangeTextarea = () => {
-    const mapping = this.textareaField.value
-
-    this.setState({ mapping })
+  onBlurInput = () => {
+    const { fetchData } = this.props
+    fetchData(this.inputField.value)
   }
 
   onClickApply = () => {
-    const { csvData, mapping } = this.state
-    const { onApply } = this.props
+    const { unparsedMapping } = this.state
+    const { csvData, onApply } = this.props
 
     try {
-      onApply(csvData, JSON.parse(mapping))
+      const parsedMapping = JSON.parse(unparsedMapping)
+      onApply(csvData, parsedMapping)
       this.setState({ badMapping: false })
     } catch (e) {
       this.setState({ badMapping: true })
     }
   }
 
-  fetchData = () => {
-    const dataSource = this.inputField.value
-
-    axios.get(dataSource).then((response) => {
-      const csvData = response.data
-      const mapping = response.data !== '' ? JSON.stringify(getMappingFromDatasource(dataSource), undefined, 2) : '{}'
-
-      if (csvData !== '') {
-        this.setState({ mapping, csvData })
-      } else {
-        this.setState({ mapping: '{}', csvData })
-      }
-    })
-    .catch(() => {
-      this.setState({ mapping: '{}', csvData: '' })
-    })
-  }
-
   render() {
-    const { mapping, csvData, badMapping } = this.state
-    const { badRequest, defaultDataSource } = this.props
+    const { csvData, mapping, badRequest, defaultDataSource } = this.props
+
     const badRequestStyle = {
       outline: badRequest ? '2px solid red' : '',
-    }
-    const badMappingStyle = {
-      outline: badMapping ? '2px solid red' : '',
     }
 
     return (
@@ -88,12 +62,10 @@ class CsvMappingApplier extends Component {
           className={styles.sourceInput}
           style={badRequestStyle}
         />
-        <textarea
-          ref={(ref) => { this.textareaField = ref }}
-          value={mapping}
-          onChange={this.onChangeTextarea}
-          className={styles.jsonViewer}
-          style={badMappingStyle}
+        <JsonTextarea
+          jsonObject={mapping}
+          jsonError={this.state.badMapping}
+          onChange={this.onChangeJsonTextarea}
         />
         <button
           type="button"
@@ -108,16 +80,32 @@ class CsvMappingApplier extends Component {
   }
 }
 
-const mapStateToProps = ({ csvMapping: { badRequest } }) => ({
+const mapStateToProps = ({
+  csvMapping: {
+    defaultDataSource,
+    csvData,
+    mapping,
+    badRequest,
+  },
+}) => ({
+  defaultDataSource,
+  csvData,
+  mapping,
   badRequest,
 })
 
-export default connect(mapStateToProps)(CsvMappingApplier)
+const mapDispatchToProps = dispatch => ({
+  fetchData: dataSource => dispatch(fetchCsvData(dataSource)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CsvMappingApplier)
 
 CsvMappingApplier.propTypes = {
   defaultDataSource: PropTypes.string,
   onApply: PropTypes.func,
   badRequest: PropTypes.bool,
+  fetchData: PropTypes.func,
   mapping: PropTypes.objectOf(PropTypes.array),
-  badRequest: PropTypes.bool,
+  csvData: PropTypes.string,
+  changeMappingHandler: PropTypes.func,
 }

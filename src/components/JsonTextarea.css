@@ -1,0 +1,14 @@
+:local(.jsonViewer) {
+  display: block;
+  font-family: Courier;
+  resize: none;
+  font-size: 12px;
+  width: 278px;
+  height: 400px;
+  background-color: #EEEEEE;
+  padding: 10px;
+}
+
+:local(.jsonViewer:focus) {
+  outline: none;
+}
