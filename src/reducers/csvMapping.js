@@ -12,11 +12,10 @@ const initialState = {
 const csvMapping = (state = initialState, action) => {
   switch (action.type) {
     case PROCESS_DATA_REQUEST: {
-      const { csvData, mapping, badRequest } = action
+      const { csvData, badRequest } = action
       return {
         ...state,
         csvData,
-        mapping,
         badRequest,
       }
     }

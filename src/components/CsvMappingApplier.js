@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import HeaderText from './HeaderText'
 import JsonTextarea from './JsonTextarea'
 import styles from './CsvMappingApplier.css'
-import { fetchCsvData } from '../actions'
+import { fetchCsvData, changeMapping } from '../actions'
+import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
 class CsvMappingApplier extends Component {
   constructor(props) {
@@ -19,6 +20,9 @@ class CsvMappingApplier extends Component {
 
     if (defaultDataSource !== '') {
       fetchData(defaultDataSource)
+      this.setState({
+        unparsedMapping: JSON.stringify(getMappingFromDatasource(defaultDataSource), undefined, 2),
+      })
     }
   }
 
@@ -28,15 +32,20 @@ class CsvMappingApplier extends Component {
 
   onBlurInput = () => {
     const { fetchData } = this.props
-    fetchData(this.inputField.value)
+    const dataSource = this.inputField.value
+    fetchData(dataSource)
+    this.setState({
+      unparsedMapping: JSON.stringify(getMappingFromDatasource(dataSource), undefined, 2),
+    })
   }
 
   onClickApply = () => {
     const { unparsedMapping } = this.state
-    const { csvData, onApply } = this.props
+    const { csvData, onApply, changeMappingHandler } = this.props
 
     try {
       const parsedMapping = JSON.parse(unparsedMapping)
+      changeMappingHandler(parsedMapping)
       onApply(csvData, parsedMapping)
       this.setState({ badMapping: false })
     } catch (e) {
@@ -45,7 +54,8 @@ class CsvMappingApplier extends Component {
   }
 
   render() {
-    const { csvData, mapping, badRequest, defaultDataSource } = this.props
+    const { unparsedMapping } = this.state
+    const { csvData, badRequest, defaultDataSource } = this.props
 
     const badRequestStyle = {
       outline: badRequest ? '2px solid red' : '',
@@ -63,7 +73,7 @@ class CsvMappingApplier extends Component {
           style={badRequestStyle}
         />
         <JsonTextarea
-          jsonObject={mapping}
+          jsonText={unparsedMapping}
           jsonError={this.state.badMapping}
           onChange={this.onChangeJsonTextarea}
         />
@@ -96,6 +106,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => ({
   fetchData: dataSource => dispatch(fetchCsvData(dataSource)),
+  changeMappingHandler: mapping => dispatch(changeMapping(mapping)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CsvMappingApplier)

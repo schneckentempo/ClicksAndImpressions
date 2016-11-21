@@ -1,6 +1,5 @@
 import * as types from '../constants/ActionTypes'
 import csvToJson from '../utils/csvToJson'
-import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
 const axios = require('axios')
 
@@ -14,10 +13,9 @@ export const applyData = (csvData, mapping) => {
   }
 }
 
-export const processFetchedData = (csvData, mapping, badRequest) => ({
+export const processFetchedData = (csvData, badRequest) => ({
   type: types.PROCESS_DATA_REQUEST,
   csvData,
-  mapping,
   badRequest,
 })
 
@@ -29,15 +27,14 @@ export const changeMapping = mapping => ({
 export const fetchCsvData = dataSource => (dispatch) => {
   axios.get(dataSource).then((response) => {
     const csvData = response.data
-    const mapping = response.data !== '' ? getMappingFromDatasource(dataSource) : {}
 
     if (csvData !== '') {
-      dispatch(processFetchedData(csvData, mapping, false))
+      dispatch(processFetchedData(csvData, false))
     } else {
-      dispatch(processFetchedData('', {}, true))
+      dispatch(processFetchedData('', true))
     }
   })
   .catch(() => {
-    dispatch(processFetchedData('', {}, true))
+    dispatch(processFetchedData('', true))
   })
 }
