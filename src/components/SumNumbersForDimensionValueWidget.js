@@ -5,7 +5,7 @@ import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
 import { changeSelectedDimensionValue } from '../actions'
 import { computeSumMetricsSkeleton } from '../selectors'
 
-class SumNumbersForDimensionValueWidget extends Component {
+export class SumNumbersForDimensionValueWidget extends Component {
   componentWillReceiveProps = (nextProps) => {
     const { mapping, onSelectDimensionValue } = this.props
 

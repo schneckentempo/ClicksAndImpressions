@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import CsvMappingApplier from './components/CsvMappingApplier'
 import SumNumbersForDimensionValueWidget from './components/SumNumbersForDimensionValueWidget'
 import { computeNormalizedData } from './selectors'
-
 import './styles.css'
 
-const App = ({
+export const App = ({
   normalizedCsv,
   dimensionValues,
   mapping,

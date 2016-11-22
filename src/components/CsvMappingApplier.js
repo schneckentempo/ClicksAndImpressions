@@ -6,7 +6,7 @@ import styles from './CsvMappingApplier.css'
 import { fetchCsvData, changeMapping } from '../actions'
 import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
-class CsvMappingApplier extends Component {
+export class CsvMappingApplier extends Component {
   constructor(props) {
     super(props)
     this.state = {
