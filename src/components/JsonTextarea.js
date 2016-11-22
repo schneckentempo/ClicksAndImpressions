@@ -12,23 +12,24 @@ export default class JsonTextarea extends Component {
 
   componentDidMount = () => {
     const { jsonText, onChange } = this.props
-    onChange(this.textareaField.value)
     this.setState({ jsonText: JSON.stringify(jsonText, undefined, 2) })
+    onChange(this.state.jsonText)
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { jsonText } = this.props
+    const { jsonText, onChange } = this.props
     if (!isEqual(jsonText, nextProps.jsonText)) {
       this.setState({ jsonText: nextProps.jsonText })
+      onChange(nextProps.jsonText)
     }
   }
 
   onChangeJsonTextarea = () => {
     const { onChange } = this.props
-    onChange(this.textareaField.value)
     const jsonText = this.textareaField.value
 
     this.setState({ jsonText })
+    onChange(jsonText)
   }
 
   render() {

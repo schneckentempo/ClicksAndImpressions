@@ -13,6 +13,7 @@ export const applyData = (csvData, mapping) => {
   }
 }
 
+// should this be splitted into 2 actions?
 export const processFetchedData = (csvData, badRequest) => ({
   type: types.PROCESS_DATA_REQUEST,
   csvData,
