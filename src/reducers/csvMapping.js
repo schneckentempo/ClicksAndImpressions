@@ -1,4 +1,4 @@
-import { PROCESS_DATA_REQUEST, CHANGE_MAPPING } from '../constants/ActionTypes'
+import { PROCESS_DATA_REQUEST, CHANGE_MAPPING, SELECTED_DIMENSIONVALUE } from '../constants/ActionTypes'
 import { DATA_SOURCE_1 } from '../constants/DataSources'
 import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
@@ -7,6 +7,7 @@ const initialState = {
   mapping: getMappingFromDatasource(DATA_SOURCE_1),
   csvData: '',
   badRequest: false,
+  selectedDimensionValue: '',
 }
 
 const csvMapping = (state = initialState, action) => {
@@ -24,6 +25,13 @@ const csvMapping = (state = initialState, action) => {
       return {
         ...state,
         mapping,
+      }
+    }
+    case SELECTED_DIMENSIONVALUE: {
+      const { selectedDimensionValue } = action
+      return {
+        ...state,
+        selectedDimensionValue,
       }
     }
     default:

@@ -25,6 +25,11 @@ export const changeMapping = mapping => ({
   mapping,
 })
 
+export const changeSelectedDimensionValue = selectedDimensionValue => ({
+  type: types.SELECTED_DIMENSIONVALUE,
+  selectedDimensionValue,
+})
+
 export const fetchCsvData = dataSource => (dispatch) => {
   axios.get(dataSource).then((response) => {
     const csvData = response.data

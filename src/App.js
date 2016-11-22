@@ -3,9 +3,15 @@ import { connect } from 'react-redux'
 import CsvMappingApplier from './components/CsvMappingApplier'
 import SumNumbersForDimensionValueWidget from './components/SumNumbersForDimensionValueWidget'
 import { computeNormalizedData } from './selectors'
+
 import './styles.css'
 
-const App = ({ normalizedCsv, dimensionValues, mapping, defaultDataSource }) => (
+const App = ({
+  normalizedCsv,
+  dimensionValues,
+  mapping,
+  defaultDataSource,
+}) => (
   <div>
     <CsvMappingApplier defaultDataSource={defaultDataSource} mapping={mapping} />
     <SumNumbersForDimensionValueWidget
@@ -22,6 +28,7 @@ const mapStateToProps = (
       csvData,
       mapping,
       defaultDataSource,
+      selectedDimensionValue,
     },
   }
 ) => {
@@ -31,6 +38,7 @@ const mapStateToProps = (
     dimensionValues,
     mapping,
     defaultDataSource,
+    selectedDimensionValue,
   }
 }
 

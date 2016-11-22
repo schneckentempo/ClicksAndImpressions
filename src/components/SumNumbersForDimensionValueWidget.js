@@ -1,31 +1,33 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
 import getSum from '../utils/getSum'
+import { changeSelectedDimensionValue } from '../actions'
 
-export default class SumNumbersForDimensionValueWidget extends Component {
+class SumNumbersForDimensionValueWidget extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedDimensionValue: '',
       sumMetrics: [],
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { mapping } = this.props
+    const { mapping, onSelectDimensionValue } = this.props
 
     if (!isEqual(mapping, nextProps.mapping)) {
       const sumMetrics = nextProps.mapping.metrics.map(metricObject =>
         ({ name: metricObject.header, sum: 0 })
       )
 
-      this.setState({ selectedDimensionValue: '', sumMetrics })
+      this.setState({ sumMetrics })
+      onSelectDimensionValue('')
     }
   }
 
   onChangeDimensionValue = (selectedDimensionValue) => {
-    const { normalizedCsv, mapping } = this.props
+    const { normalizedCsv, mapping, onSelectDimensionValue } = this.props
 
     if (mapping.metrics) {
       const sumMetrics = mapping.metrics.map((metricObject) => {
@@ -33,13 +35,14 @@ export default class SumNumbersForDimensionValueWidget extends Component {
         return { name: metricObject.header, sum }
       })
 
-      this.setState({ selectedDimensionValue, sumMetrics })
+      this.setState({ sumMetrics })
+      onSelectDimensionValue(selectedDimensionValue)
     }
   }
 
   render() {
-    const { selectedDimensionValue, sumMetrics } = this.state
-    const { dimensionValues } = this.props
+    const { sumMetrics } = this.state
+    const { selectedDimensionValue, dimensionValues } = this.props
 
     return (
       <SumNumbersForDimensionValue
@@ -53,8 +56,20 @@ export default class SumNumbersForDimensionValueWidget extends Component {
   }
 }
 
+const mapStateToProps = ({ csvMapping: { selectedDimensionValue } }) => ({
+  selectedDimensionValue,
+})
+
+const mapDispatchToProps = dispatch => ({
+  onSelectDimensionValue: dimensionValue => dispatch(changeSelectedDimensionValue(dimensionValue)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SumNumbersForDimensionValueWidget)
+
 SumNumbersForDimensionValueWidget.propTypes = {
   mapping: PropTypes.objectOf(PropTypes.array),
   normalizedCsv: PropTypes.arrayOf(PropTypes.object),
   dimensionValues: PropTypes.arrayOf(PropTypes.object),
+  selectedDimensionValue: PropTypes.string,
+  onSelectDimensionValue: PropTypes.func,
 }
