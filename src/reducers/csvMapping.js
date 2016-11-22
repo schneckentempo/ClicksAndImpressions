@@ -1,10 +1,9 @@
 import { PROCESS_DATA_REQUEST, CHANGE_MAPPING, SELECTED_DIMENSIONVALUE } from '../constants/ActionTypes'
 import { DATA_SOURCE_1 } from '../constants/DataSources'
-import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
 const initialState = {
   defaultDataSource: DATA_SOURCE_1,
-  mapping: getMappingFromDatasource(DATA_SOURCE_1),
+  mapping: {},
   csvData: '',
   badRequest: false,
   selectedDimensionValue: '',
