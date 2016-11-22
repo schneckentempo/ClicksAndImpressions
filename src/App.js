@@ -22,16 +22,12 @@ const App = ({
   </div>
 )
 
-const mapStateToProps = (
-  {
-    csvMapping: {
-      csvData,
-      mapping,
-      defaultDataSource,
-      selectedDimensionValue,
-    },
-  }
-) => {
+const mapStateToProps = ({
+    csvData,
+    mapping,
+    defaultDataSource,
+    selectedDimensionValue,
+  }) => {
   const { normalizedCsv, dimensionValues } = computeNormalizedData({ csvData, mapping })
   return {
     normalizedCsv,

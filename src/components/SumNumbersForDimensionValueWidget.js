@@ -41,10 +41,7 @@ class SumNumbersForDimensionValueWidget extends Component {
   }
 }
 
-const mapStateToProps = (
-  { csvMapping: { mapping, selectedDimensionValue } },
-  { normalizedCsv }
-) => {
+const mapStateToProps = ({ mapping, selectedDimensionValue }, { normalizedCsv }) => {
   const sumMetrics = computeSumMetricsSkeleton({
     normalizedCsv,
     mapping,

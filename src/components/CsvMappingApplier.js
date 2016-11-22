@@ -96,12 +96,10 @@ class CsvMappingApplier extends Component {
 }
 
 const mapStateToProps = ({
-  csvMapping: {
     defaultDataSource,
     csvData,
     mapping,
     badRequest,
-  },
 }) => ({
   defaultDataSource,
   csvData,

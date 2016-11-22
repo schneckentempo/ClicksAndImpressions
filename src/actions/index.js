@@ -1,17 +1,6 @@
 import * as types from '../constants/ActionTypes'
-import csvToJson from '../utils/csvToJson'
 
 const axios = require('axios')
-
-export const applyData = (csvData, mapping) => {
-  const { dimensionValues, normalizedCsv } = csvToJson(csvData, mapping)
-
-  return {
-    type: types.APPLY_DATA,
-    normalizedCsv,
-    dimensionValues,
-  }
-}
 
 // should this be splitted into 2 actions?
 export const processFetchedData = (csvData, badRequest) => ({
