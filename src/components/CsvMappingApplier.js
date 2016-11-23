@@ -1,18 +1,15 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import HeaderText from './HeaderText'
 import JsonTextarea from './JsonTextarea'
 import styles from './CsvMappingApplier.css'
-import { fetchCsvData, changeMapping } from '../actions'
 import getMappingFromDatasource from '../utils/getMappingFromDatasource'
 
-export class CsvMappingApplier extends Component {
+export default class CsvMappingApplier extends Component {
   constructor(props) {
     super(props)
     this.state = {
       dataSource: props.defaultDataSource,
       unparsedMapping: '',
-      badMapping: false,
     }
   }
 
@@ -29,9 +26,9 @@ export class CsvMappingApplier extends Component {
   onChangeJsonTextarea = (unparsedMapping) => {
     try {
       JSON.parse(unparsedMapping)
-      this.setState({ unparsedMapping, badMapping: false })
+      this.setState({ unparsedMapping })
     } catch (e) {
-      this.setState({ unparsedMapping, badMapping: true })
+      this.setState({ unparsedMapping })
     }
   }
 
@@ -43,24 +40,30 @@ export class CsvMappingApplier extends Component {
     })
   }
 
-  onClickApply = () => {
+  handleClick = () => {
     const dataSource = this.inputField.value
     const { unparsedMapping } = this.state
-    const { fetchData, changeMappingHandler } = this.props
+    const { onClickApply } = this.props
+    const badMapping = this.isBadMapping(unparsedMapping)
+    if (!badMapping) {
+      onClickApply({ appliedMapping: JSON.parse(unparsedMapping), dataSource })
+    }
+  }
 
+  isBadMapping = (unparsedMapping) => {
     try {
-      fetchData(dataSource)
-      const parsedMapping = JSON.parse(unparsedMapping)
-      changeMappingHandler(parsedMapping)
-      this.setState({ badMapping: false })
+      JSON.parse(unparsedMapping)
+      return false
     } catch (e) {
-      this.setState({ badMapping: true })
+      return true
     }
   }
 
   render() {
-    const { dataSource, unparsedMapping, badMapping } = this.state
+    const { dataSource, unparsedMapping } = this.state
     const { badRequest, defaultDataSource } = this.props
+
+    const badMapping = this.isBadMapping(unparsedMapping)
 
     const badRequestStyle = {
       outline: badRequest ? '2px solid red' : '',
@@ -85,7 +88,7 @@ export class CsvMappingApplier extends Component {
         <button
           type="button"
           className={styles.applyBtn}
-          onClick={this.onClickApply}
+          onClick={this.handleClick}
           disabled={badMapping || dataSource === ''}
         >
           Apply
@@ -95,28 +98,8 @@ export class CsvMappingApplier extends Component {
   }
 }
 
-const mapStateToProps = ({
-    defaultDataSource,
-    csvData,
-    mapping,
-    badRequest,
-}) => ({
-  defaultDataSource,
-  csvData,
-  mapping,
-  badRequest,
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchData: dataSource => dispatch(fetchCsvData(dataSource)),
-  changeMappingHandler: mapping => dispatch(changeMapping(mapping)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CsvMappingApplier)
-
 CsvMappingApplier.propTypes = {
   defaultDataSource: PropTypes.string,
   badRequest: PropTypes.bool,
-  fetchData: PropTypes.func,
-  changeMappingHandler: PropTypes.func,
+  onClickApply: PropTypes.func,
 }

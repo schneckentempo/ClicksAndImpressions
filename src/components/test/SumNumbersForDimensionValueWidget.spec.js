@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import { SumNumbersForDimensionValueWidget } from '../SumNumbersForDimensionValueWidget'
+import SumNumbersForDimensionValueWidget from '../SumNumbersForDimensionValueWidget'
 
 const wrapper = shallow(<SumNumbersForDimensionValueWidget mapping={{}} />)
 

@@ -1,11 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
-import { changeSelectedDimensionValue } from '../actions'
-import { computeSumMetrics } from '../selectors'
 
-export class SumNumbersForDimensionValueWidget extends Component {
+export default class SumNumbersForDimensionValueWidget extends Component {
   componentWillReceiveProps = (nextProps) => {
     const { mapping, onSelectDimensionValue } = this.props
 
@@ -21,7 +18,7 @@ export class SumNumbersForDimensionValueWidget extends Component {
   }
 
   render() {
-    const { mapping, selectedDimensionValue, dimensionValues, sumMetrics } = this.props
+    const { mapping, selectedDimensionValue, dimensionValues } = this.props
     const headerArray = (
       mapping.dimensions
         ? mapping.dimensions.map(dimensionObject => dimensionObject.header)
@@ -35,35 +32,14 @@ export class SumNumbersForDimensionValueWidget extends Component {
         value={selectedDimensionValue}
         dimensionValues={dimensionValues}
         onChange={this.onChangeDimensionValue}
-        metrics={sumMetrics}
       />
     )
   }
 }
-
-const mapStateToProps = ({ mapping, selectedDimensionValue }, { normalizedCsv }) => {
-  const sumMetrics = computeSumMetrics({
-    normalizedCsv,
-    mapping,
-    selectedDimensionValue,
-  })
-
-  return {
-    selectedDimensionValue,
-    sumMetrics,
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  onSelectDimensionValue: dimensionValue => dispatch(changeSelectedDimensionValue(dimensionValue)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SumNumbersForDimensionValueWidget)
 
 SumNumbersForDimensionValueWidget.propTypes = {
   mapping: PropTypes.objectOf(PropTypes.array),
   dimensionValues: PropTypes.arrayOf(PropTypes.object),
   selectedDimensionValue: PropTypes.string,
   onSelectDimensionValue: PropTypes.func,
-  sumMetrics: PropTypes.arrayOf(PropTypes.object),
 }
