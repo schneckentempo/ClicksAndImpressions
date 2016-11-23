@@ -1,4 +1,4 @@
-import { PROCESS_DATA_REQUEST, CHANGE_MAPPING, SELECTED_DIMENSIONVALUE } from '../constants/ActionTypes'
+import { PROCESS_DATA_REQUEST, CHANGE_MAPPING, CHANGE_SELECTED_DIMENSIONVALUE } from '../constants/ActionTypes'
 import { DATA_SOURCE_1 } from '../constants/DataSources'
 
 const initialState = {
@@ -26,7 +26,7 @@ const dimensionMetricsViewerApp = (state = initialState, action) => {
         mapping,
       }
     }
-    case SELECTED_DIMENSIONVALUE: {
+    case CHANGE_SELECTED_DIMENSIONVALUE: {
       const { selectedDimensionValue } = action
       return {
         ...state,

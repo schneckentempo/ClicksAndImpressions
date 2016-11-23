@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
 import { changeSelectedDimensionValue } from '../actions'
-import { computeSumMetricsSkeleton } from '../selectors'
+import { computeSumMetrics } from '../selectors'
 
 export class SumNumbersForDimensionValueWidget extends Component {
   componentWillReceiveProps = (nextProps) => {
@@ -42,7 +42,7 @@ export class SumNumbersForDimensionValueWidget extends Component {
 }
 
 const mapStateToProps = ({ mapping, selectedDimensionValue }, { normalizedCsv }) => {
-  const sumMetrics = computeSumMetricsSkeleton({
+  const sumMetrics = computeSumMetrics({
     normalizedCsv,
     mapping,
     selectedDimensionValue,

@@ -15,7 +15,7 @@ export const changeMapping = mapping => ({
 })
 
 export const changeSelectedDimensionValue = selectedDimensionValue => ({
-  type: types.SELECTED_DIMENSIONVALUE,
+  type: types.CHANGE_SELECTED_DIMENSIONVALUE,
   selectedDimensionValue,
 })
 

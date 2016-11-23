@@ -17,7 +17,7 @@ describe('actions', () => {
   it('should create an action to assign the new selected dimensionvalue', () => {
     const selectedDimensionValue = 'some Value'
     const expectedAction = {
-      type: types.SELECTED_DIMENSIONVALUE,
+      type: types.CHANGE_SELECTED_DIMENSIONVALUE,
       selectedDimensionValue,
     }
     expect(actions.changeSelectedDimensionValue(selectedDimensionValue)).to.eql(expectedAction)

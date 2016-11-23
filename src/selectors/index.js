@@ -13,7 +13,7 @@ export const computeNormalizedData = createSelector(
 const getNormalizedCsv = ({ normalizedCsv }) => normalizedCsv
 const getSelectedDimensionValue = ({ selectedDimensionValue }) => selectedDimensionValue
 
-export const computeSumMetricsSkeleton = createSelector(
+export const computeSumMetrics = createSelector(
   [getNormalizedCsv, getMapping, getSelectedDimensionValue],
   (normalizedCsv, mapping, selectedDimensionValue) => {
     if (mapping.metrics) {

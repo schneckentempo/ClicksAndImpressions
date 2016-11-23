@@ -53,7 +53,7 @@ describe('selectors', () => {
     )
   })
 
-  it('computeSumMetricsSkeleton should return a sum for each metric regarding a given dimensionvalue', () => {
+  it('computeSumMetrics should return a sum for each metric regarding a given dimensionvalue', () => {
     const mapping = {
       metrics: [{
         index: 2,
@@ -91,7 +91,7 @@ describe('selectors', () => {
     const selectedDimensionValue = 'channel_b'
 
     expect(
-      selectors.computeSumMetricsSkeleton({ normalizedCsv, mapping, selectedDimensionValue })
+      selectors.computeSumMetrics({ normalizedCsv, mapping, selectedDimensionValue })
     )
     .to.eql(
       [{ name: 'clicks', sum: 300 }, { name: 'impressions', sum: 5050 }]

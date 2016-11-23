@@ -53,10 +53,10 @@ describe('reducer', () => {
     )
   })
 
-  it('should handle SELECTED_DIMENSIONVALUE', () => {
+  it('should handle CHANGE_SELECTED_DIMENSIONVALUE', () => {
     expect(
       reducer(undefined, {
-        type: types.SELECTED_DIMENSIONVALUE,
+        type: types.CHANGE_SELECTED_DIMENSIONVALUE,
         selectedDimensionValue: 'some Value',
       })
     ).to.eql(
