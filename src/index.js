@@ -16,10 +16,6 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
 )
 
-store.subscribe(() =>
-  console.log(store.getState())
-)
-
 sagaMiddleware.run(rootSaga)
 
 render(
