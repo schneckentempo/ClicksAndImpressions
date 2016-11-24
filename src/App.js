@@ -68,8 +68,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = dispatch => ({
   onApply: ({ appliedMapping, dataSource }) => {
-    dispatch(fetchCsvData(dataSource))
-    dispatch(changeMapping(appliedMapping))
+    dispatch(fetchCsvData(dataSource, appliedMapping))
+    // dispatch(changeMapping(appliedMapping))
   },
   onSelect: dimensionValue => dispatch(changeSelectedDimensionValue(dimensionValue)),
 })
