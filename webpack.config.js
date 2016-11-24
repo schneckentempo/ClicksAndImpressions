@@ -23,6 +23,14 @@ module.exports = {
         test: /\.js$/,
         loaders: ['react-hot', 'babel'],
         include: path.join(__dirname, 'src'),
+      }, {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'stage-0'],
+          plugins: ['transform-runtime'],
+        },
       }],
   },
 }
