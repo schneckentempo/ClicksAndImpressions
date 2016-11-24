@@ -4,9 +4,12 @@ import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
 
 export default class SumNumbersForDimensionValueWidget extends Component {
   componentWillReceiveProps = (nextProps) => {
-    const { mapping, onSelectDimensionValue } = this.props
+    const { mapping, dimensionValues, onSelectDimensionValue } = this.props
 
-    if (!isEqual(mapping, nextProps.mapping)) {
+    if (
+      !isEqual(mapping, nextProps.mapping) ||
+      !isEqual(dimensionValues, nextProps.dimensionValues)
+    ) {
       onSelectDimensionValue('')
     }
   }
