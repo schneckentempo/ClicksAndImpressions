@@ -1,4 +1,4 @@
-import { take, put, call } from 'redux-saga/effects'
+import { take, put, call, fork } from 'redux-saga/effects'
 import * as actionTypes from '../constants/ActionTypes'
 import * as actions from '../actions'
 
@@ -14,8 +14,7 @@ export function fetchCsvDataApi(dataSource) {
   )
 }
 
-
-export default function* root() {
+export function* watchForCsvDataRequest() {
   while (true) {
     const { dataSource, mapping } = yield take(actionTypes.CSV_DATA_REQUEST)
     const { response, error } = yield call(fetchCsvDataApi, dataSource)
@@ -31,4 +30,8 @@ export default function* root() {
       yield put(actions.fetchCsvDataError('', {}, true))
     }
   }
+}
+
+export default function* root() {
+  yield fork(watchForCsvDataRequest)
 }
