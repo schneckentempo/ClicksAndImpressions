@@ -111,7 +111,7 @@ export default class DimensionValueChooser extends Component {
         </div>
         <div className={styles.ulWrapper} style={ulWrapperStyle}>
           <ul className={styles.ulItem}>
-            {options.length > 0 &&
+            {options && options.length > 0 &&
               filterOptions(options, inputText).map((dimensionValueObject, i) => (
                 <ListItem
                   key={`li_${i}`}
@@ -122,7 +122,7 @@ export default class DimensionValueChooser extends Component {
                 )
               )
             }
-            {(options.length === 0 || filterOptions(options, inputText).length === 0) &&
+            {(options && filterOptions(options, inputText).length === 0) &&
               <div className={styles.noResults}>
                 No results found
               </div>

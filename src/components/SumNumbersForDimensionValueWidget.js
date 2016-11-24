@@ -1,53 +1,37 @@
 import React, { Component, PropTypes } from 'react'
 import { isEqual } from 'lodash'
 import SumNumbersForDimensionValue from './SumNumbersForDimensionValue'
-import getSum from '../utils/getSum'
 
 export default class SumNumbersForDimensionValueWidget extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedDimensionValue: '',
-      sumMetrics: [],
-    }
-  }
-
   componentWillReceiveProps = (nextProps) => {
-    const { mapping } = this.props
+    const { mapping, onSelectDimensionValue } = this.props
 
     if (!isEqual(mapping, nextProps.mapping)) {
-      const sumMetrics = nextProps.mapping.metrics.map(metricObject =>
-        ({ name: metricObject.header, sum: 0 })
-      )
-
-      this.setState({ selectedDimensionValue: '', sumMetrics })
+      onSelectDimensionValue('')
     }
   }
 
   onChangeDimensionValue = (selectedDimensionValue) => {
-    const { normalizedCsv, mapping } = this.props
+    const { onSelectDimensionValue } = this.props
 
-    if (mapping.metrics) {
-      const sumMetrics = mapping.metrics.map((metricObject) => {
-        const sum = getSum(normalizedCsv, selectedDimensionValue, metricObject.header, mapping)
-        return { name: metricObject.header, sum }
-      })
-
-      this.setState({ selectedDimensionValue, sumMetrics })
-    }
+    onSelectDimensionValue(selectedDimensionValue)
   }
 
   render() {
-    const { selectedDimensionValue, sumMetrics } = this.state
-    const { options } = this.props
+    const { mapping, selectedDimensionValue, dimensionValues } = this.props
+    const headerArray = (
+      mapping.dimensions
+        ? mapping.dimensions.map(dimensionObject => dimensionObject.header)
+        : []
+    )
+    const header = headerArray.length > 0 ? headerArray.join('/') : 'dimension'
 
     return (
       <SumNumbersForDimensionValue
-        header="Choose channel or campaign:"
+        header={`Choose ${header}:`}
         value={selectedDimensionValue}
-        options={options}
+        dimensionValues={dimensionValues}
         onChange={this.onChangeDimensionValue}
-        metrics={sumMetrics}
       />
     )
   }
@@ -55,6 +39,7 @@ export default class SumNumbersForDimensionValueWidget extends Component {
 
 SumNumbersForDimensionValueWidget.propTypes = {
   mapping: PropTypes.objectOf(PropTypes.array),
-  normalizedCsv: PropTypes.arrayOf(PropTypes.object),
-  options: PropTypes.arrayOf(PropTypes.object),
+  dimensionValues: PropTypes.arrayOf(PropTypes.object),
+  selectedDimensionValue: PropTypes.string,
+  onSelectDimensionValue: PropTypes.func,
 }

@@ -1,18 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import HeaderText from './HeaderText'
+import JsonTextarea from './JsonTextarea'
 import styles from './CsvMappingApplier.css'
 import getMappingFromDatasource from '../utils/getMappingFromDatasource'
-
-const axios = require('axios')
 
 export default class CsvMappingApplier extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      mapping: JSON.stringify(getMappingFromDatasource(props.defaultDataSource), undefined, 2),
-      csvData: '',
-      badRequest: false,
-      badMapping: false,
+      dataSource: props.defaultDataSource,
+      unparsedMapping: '',
     }
   }
 
@@ -20,59 +17,56 @@ export default class CsvMappingApplier extends Component {
     const { defaultDataSource } = this.props
 
     if (defaultDataSource !== '') {
-      this.fetchData()
+      this.setState({
+        unparsedMapping: JSON.stringify(getMappingFromDatasource(defaultDataSource), undefined, 2),
+      })
+    }
+  }
+
+  onChangeJsonTextarea = (unparsedMapping) => {
+    try {
+      JSON.parse(unparsedMapping)
+      this.setState({ unparsedMapping })
+    } catch (e) {
+      this.setState({ unparsedMapping })
     }
   }
 
   onBlurInput = () => {
-    this.fetchData()
+    const dataSource = this.inputField.value
+    this.setState({
+      unparsedMapping: JSON.stringify(getMappingFromDatasource(dataSource), undefined, 2),
+      dataSource,
+    })
   }
 
-  onChangeTextarea = () => {
-    const mapping = this.textareaField.value
-
-    this.setState({ mapping })
-  }
-
-  onClickApply = () => {
-    const { csvData, mapping } = this.state
-    const { onApply } = this.props
-
-    try {
-      onApply(csvData, JSON.parse(mapping))
-      this.setState({ badMapping: false })
-    } catch (e) {
-      this.setState({ badMapping: true })
+  handleClick = () => {
+    const dataSource = this.inputField.value
+    const { unparsedMapping } = this.state
+    const { onClickApply } = this.props
+    const badMapping = this.isBadMapping(unparsedMapping)
+    if (!badMapping) {
+      onClickApply({ appliedMapping: JSON.parse(unparsedMapping), dataSource })
     }
   }
 
-  fetchData = () => {
-    const dataSource = this.inputField.value
-
-    axios.get(dataSource).then((response) => {
-      const csvData = response.data
-      const mapping = response.data !== '' ? JSON.stringify(getMappingFromDatasource(dataSource), undefined, 2) : '{}'
-
-      if (csvData !== '') {
-        this.setState({ mapping, csvData, badRequest: false })
-      } else {
-        this.setState({ mapping: '{}', csvData, badRequest: true })
-      }
-    })
-    .catch(() => {
-      this.setState({ mapping: '{}', csvData: '', badRequest: true })
-    })
+  isBadMapping = (unparsedMapping) => {
+    try {
+      JSON.parse(unparsedMapping)
+      return false
+    } catch (e) {
+      return true
+    }
   }
 
   render() {
-    const { badRequest, badMapping, mapping, csvData } = this.state
-    const { defaultDataSource } = this.props
+    const { dataSource, unparsedMapping } = this.state
+    const { badRequest, defaultDataSource } = this.props
+
+    const badMapping = this.isBadMapping(unparsedMapping)
 
     const badRequestStyle = {
       outline: badRequest ? '2px solid red' : '',
-    }
-    const badMappingStyle = {
-      outline: badMapping ? '2px solid red' : '',
     }
 
     return (
@@ -86,18 +80,16 @@ export default class CsvMappingApplier extends Component {
           className={styles.sourceInput}
           style={badRequestStyle}
         />
-        <textarea
-          ref={(ref) => { this.textareaField = ref }}
-          value={mapping}
-          onChange={this.onChangeTextarea}
-          className={styles.jsonViewer}
-          style={badMappingStyle}
+        <JsonTextarea
+          jsonText={unparsedMapping}
+          jsonError={badMapping}
+          onChange={this.onChangeJsonTextarea}
         />
         <button
           type="button"
           className={styles.applyBtn}
-          onClick={this.onClickApply}
-          disabled={csvData === ''}
+          onClick={this.handleClick}
+          disabled={badMapping || dataSource === ''}
         >
           Apply
         </button>
@@ -108,5 +100,6 @@ export default class CsvMappingApplier extends Component {
 
 CsvMappingApplier.propTypes = {
   defaultDataSource: PropTypes.string,
-  onApply: PropTypes.func,
+  badRequest: PropTypes.bool,
+  onClickApply: PropTypes.func,
 }

@@ -16,7 +16,7 @@ export default function csvToJson(csv, mapping) {
     ...map(sortByHeaders, headerValue => map(normalizedCsv, item => item[headerValue]))
   ))
 
-  const options = uniques.map(value => ({ value, label: value }))
+  const dimensionValues = uniques.map(value => ({ value, label: value }))
 
-  return { options, normalizedCsv }
+  return { dimensionValues, normalizedCsv }
 }

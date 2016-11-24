@@ -1,36 +1,89 @@
-import React, { Component } from 'react'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 import CsvMappingApplier from './components/CsvMappingApplier'
+import NumberWithLabel from './components/NumberWithLabel'
 import SumNumbersForDimensionValueWidget from './components/SumNumbersForDimensionValueWidget'
-import csvToJson from './utils/csvToJson'
+import { computeNormalizedData, computeSumMetrics } from './selectors'
+import { fetchCsvData, changeMapping, changeSelectedDimensionValue } from './actions'
 import './styles.css'
 
-export default class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      csvData: '',
-      mapping: {},
-      normalizedCsv: [],
-      options: [],
+export const App = ({
+  normalizedCsv,
+  dimensionValues,
+  mapping,
+  defaultDataSource,
+  badRequest,
+  onApply,
+  onSelect,
+  sumMetrics,
+  selectedDimensionValue,
+}) => (
+  <div>
+    <CsvMappingApplier
+      defaultDataSource={defaultDataSource}
+      mapping={mapping}
+      badRequest={badRequest}
+      onClickApply={onApply}
+    />
+    <SumNumbersForDimensionValueWidget
+      normalizedCsv={normalizedCsv}
+      dimensionValues={dimensionValues}
+      mapping={mapping}
+      selectedDimensionValue={selectedDimensionValue}
+      onSelectDimensionValue={onSelect}
+    />
+    <p>
+    {
+      sumMetrics.map((metricsObject, i) =>
+        <NumberWithLabel key={`nwl_${i}`} label={metricsObject.name} number={metricsObject.sum} />)
     }
-  }
+    </p>
+  </div>
+)
 
-  handleApply = (csvData, mapping) => {
-    const { options, normalizedCsv } = csvToJson(csvData, mapping)
-    this.setState({ csvData, mapping, normalizedCsv, options })
-  }
+const mapStateToProps = ({
+    csvData,
+    mapping,
+    defaultDataSource,
+    selectedDimensionValue,
+    badRequest,
+  }) => {
+  const { normalizedCsv, dimensionValues } = computeNormalizedData({ csvData, mapping })
+  const sumMetrics = computeSumMetrics({
+    normalizedCsv,
+    mapping,
+    selectedDimensionValue,
+  })
 
-  render() {
-    const { normalizedCsv, options, mapping } = this.state
-    return (
-      <div>
-        <CsvMappingApplier defaultDataSource="http://mockbin.org/bin/ee7a13ae-4732-445d-ac76-27bc8e74edc5" onApply={this.handleApply} />
-        <SumNumbersForDimensionValueWidget
-          normalizedCsv={normalizedCsv}
-          options={options}
-          mapping={mapping}
-        />
-      </div>
-    )
+  return {
+    normalizedCsv,
+    dimensionValues,
+    mapping,
+    defaultDataSource,
+    selectedDimensionValue,
+    badRequest,
+    sumMetrics,
   }
+}
+
+const mapDispatchToProps = dispatch => ({
+  onApply: ({ appliedMapping, dataSource }) => {
+    dispatch(fetchCsvData(dataSource))
+    dispatch(changeMapping(appliedMapping))
+  },
+  onSelect: dimensionValue => dispatch(changeSelectedDimensionValue(dimensionValue)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+App.propTypes = {
+  mapping: PropTypes.objectOf(PropTypes.array),
+  normalizedCsv: PropTypes.arrayOf(PropTypes.object),
+  dimensionValues: PropTypes.arrayOf(PropTypes.object),
+  defaultDataSource: PropTypes.string,
+  badRequest: PropTypes.bool,
+  onApply: PropTypes.func,
+  onSelect: PropTypes.func,
+  sumMetrics: PropTypes.arrayOf(PropTypes.object),
+  selectedDimensionValue: PropTypes.string,
 }

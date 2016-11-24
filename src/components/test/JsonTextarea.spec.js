@@ -1,11 +1,11 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { expect } from 'chai'
-import { App } from '../../App'
+import JsonTextarea from '../JsonTextarea'
 
-const wrapper = shallow(<App sumMetrics={[]} />)
+const wrapper = shallow(<JsonTextarea />)
 
-describe('(Component) App', () => {
+describe('(Component) JsonTextarea', () => {
   it('renders without exploding', () => {
     expect(wrapper).to.have.length(1)
   })

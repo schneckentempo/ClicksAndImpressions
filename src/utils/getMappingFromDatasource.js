@@ -1,5 +1,7 @@
+import { DATA_SOURCE_1, DATA_SOURCE_2 } from '../constants/DataSources'
+
 export default function getMappingFromDatasource(datasource) {
-  if (datasource.includes('http://mockbin.org/bin/3f1037be-88f3-4e34-a8ec-d602779bf2d6')) {
+  if (datasource.includes(DATA_SOURCE_1)) {
     const mapping = {
       metrics: [{
         index: 2,
@@ -18,7 +20,7 @@ export default function getMappingFromDatasource(datasource) {
     }
 
     return mapping
-  } else if (datasource.includes('http://mockbin.org/bin/ee7a13ae-4732-445d-ac76-27bc8e74edc5')) {
+  } else if (datasource.includes(DATA_SOURCE_2)) {
     const mapping = {
       metrics: [{
         index: 2,
