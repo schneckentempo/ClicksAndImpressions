@@ -4,8 +4,8 @@ import createSagaMiddleware from 'redux-saga'
 import { Provider } from 'react-redux'
 import { render } from 'react-dom'
 import rootSaga from './sagas'
-import App from './App'
 import dimensionMetricsViewerApp from './reducers'
+import App from './App'
 
 const sagaMiddleware = createSagaMiddleware()
 
