@@ -4,7 +4,7 @@ import CsvMappingApplier from './components/CsvMappingApplier'
 import NumberWithLabel from './components/NumberWithLabel'
 import SumNumbersForDimensionValueWidget from './components/SumNumbersForDimensionValueWidget'
 import { computeNormalizedData, computeSumMetrics } from './selectors'
-import { fetchCsvData, changeMapping, changeSelectedDimensionValue } from './actions'
+import { fetchCsvData, changeSelectedDimensionValue } from './actions'
 import './styles.css'
 
 export const App = ({
