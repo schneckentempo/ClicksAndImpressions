@@ -11,22 +11,27 @@ export const initialModel = {
   selectedDimensionValue: '',
 }
 
+const handleCsvDataSuccess = (model, { csvData, mapping, badRequest }) => ({
+  ...model,
+  csvData,
+  mapping,
+  badRequest,
+})
+
+const handleCsvDataError = (model, { csvData, mapping, badRequest }) => ({
+  ...model,
+  csvData,
+  mapping,
+  badRequest,
+})
+
+const handleChangeDimensionValue = (model, { selectedDimensionValue }) => ({
+  ...model,
+  selectedDimensionValue,
+})
 
 export default new Updater(initialModel, saga)
-  .case(ActionTypes.CSV_DATA_SUCCESS, (model, { csvData, mapping, badRequest }) => ({
-    ...model,
-    csvData,
-    mapping,
-    badRequest,
-  }))
-  .case(ActionTypes.CSV_DATA_ERROR, (model, { csvData, mapping, badRequest }) => ({
-    ...model,
-    csvData,
-    mapping,
-    badRequest,
-  }))
-  .case(ActionTypes.CHANGE_SELECTED_DIMENSIONVALUE, (model, { selectedDimensionValue }) => ({
-    ...model,
-    selectedDimensionValue,
-  }))
+  .case(ActionTypes.CSV_DATA_SUCCESS, handleCsvDataSuccess)
+  .case(ActionTypes.CSV_DATA_ERROR, handleCsvDataError)
+  .case(ActionTypes.CHANGE_SELECTED_DIMENSIONVALUE, handleChangeDimensionValue)
   .toReducer()

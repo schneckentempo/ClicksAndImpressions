@@ -20,7 +20,7 @@ export default view(({ model, dispatch }) => (
     }
     <button
       className={styles.addWidgetButton}
-      onClick={() => dispatch(addWidget())}
+      onDoubleClick={() => dispatch(addWidget())}
     >
       +
     </button>

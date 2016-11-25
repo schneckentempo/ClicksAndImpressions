@@ -6,25 +6,29 @@ const initialModel = {
   widgetList: [appUpdater(appInitialModel)],
 }
 
-export default new Updater(initialModel)
-  .case('App', (model, action) => {
-    const appIndex = parseInt(action.matching.args.param, 10)
+const handleForwardToApp = (model, action) => {
+  const appIndex = parseInt(action.matching.args.param, 10)
 
-    return {
-      ...model,
-      widgetList: model.widgetList.map((appModel, index) => {
-        if (index === appIndex) {
-          return appUpdater(appModel, action)
-        }
-        return appModel
-      }),
-    }
-  }, Matchers.parameterizedMatcher)
-  .case(ActionTypes.ADD_WIDGET, model => ({
+  return {
     ...model,
-    widgetList: [
-      ...model.widgetList,
-      appUpdater(appInitialModel),
-    ],
-  }))
+    widgetList: model.widgetList.map((appModel, index) => {
+      if (index === appIndex) {
+        return appUpdater(appModel, action)
+      }
+      return appModel
+    }),
+  }
+}
+
+const handleAddWidget = model => ({
+  ...model,
+  widgetList: [
+    ...model.widgetList,
+    appUpdater(appInitialModel),
+  ],
+})
+
+export default new Updater(initialModel)
+  .case('App', handleForwardToApp, Matchers.parameterizedMatcher)
+  .case(ActionTypes.ADD_WIDGET, handleAddWidget)
   .toReducer()
