@@ -70,8 +70,10 @@
     "react-select": "^1.0.0-rc.2",
     "recompose": "^0.20.2",
     "redux": "^3.6.0",
+    "redux-elm": "^3.1.0",
     "redux-saga": "^0.13.0",
     "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "rxjs": "^5.0.0-rc.4"
   }
 }
