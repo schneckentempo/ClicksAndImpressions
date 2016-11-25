@@ -1,5 +1,5 @@
 import { Updater } from 'redux-elm'
-import saga from './sagas'
+import saga from '../sagas'
 import * as ActionTypes from '../constants/ActionTypes'
 import { DATA_SOURCE_1 } from '../constants/DataSources'
 
@@ -24,10 +24,6 @@ export default new Updater(initialModel, saga)
     csvData,
     mapping,
     badRequest,
-  }))
-  .case(ActionTypes.CHANGE_MAPPING, (model, { mapping }) => ({
-    ...model,
-    mapping,
   }))
   .case(ActionTypes.CHANGE_SELECTED_DIMENSIONVALUE, (model, { selectedDimensionValue }) => ({
     ...model,

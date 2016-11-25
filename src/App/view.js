@@ -27,8 +27,8 @@ export default view(({ model: {
         defaultDataSource={defaultDataSource}
         mapping={mapping}
         badRequest={badRequest}
-        onClickApply={({ appliedMapping, dataSource }) =>
-          dispatch(fetchCsvData(dataSource, appliedMapping))
+        onClickApply={
+          ({ appliedMapping, dataSource }) => dispatch(fetchCsvData(dataSource, appliedMapping))
         }
       />
       <SumNumbersForDimensionValueWidget
@@ -36,8 +36,8 @@ export default view(({ model: {
         dimensionValues={dimensionValues}
         mapping={mapping}
         selectedDimensionValue={selectedDimensionValue}
-        onSelectDimensionValue={dimensionValue =>
-          dispatch(changeSelectedDimensionValue(dimensionValue))
+        onSelectDimensionValue={
+          dimensionValue => dispatch(changeSelectedDimensionValue(dimensionValue))
         }
       />
       <p>

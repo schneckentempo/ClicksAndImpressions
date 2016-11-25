@@ -24,7 +24,7 @@ export default new Updater(initialModel)
     ...model,
     widgetList: [
       ...model.widgetList,
-      appUpdater(),
+      appUpdater(appInitialModel),
     ],
   }))
   .toReducer()
