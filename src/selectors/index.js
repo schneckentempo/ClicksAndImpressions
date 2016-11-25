@@ -7,7 +7,7 @@ const getMapping = ({ mapping }) => mapping
 
 export const computeNormalizedData = createSelector(
   [getCsvData, getMapping],
-  (csvData, mapping) => csvToJson(csvData, mapping)
+  (csvData, mapping) => { console.log('calc'); return csvToJson(csvData, mapping) }
 )
 
 const getNormalizedCsv = ({ normalizedCsv }) => normalizedCsv

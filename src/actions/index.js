@@ -29,3 +29,7 @@ export const fetchCsvData = (dataSource, mapping) => ({
   dataSource,
   mapping,
 })
+
+export const addWidget = () => ({
+  type: types.ADD_WIDGET,
+})
