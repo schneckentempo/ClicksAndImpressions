@@ -3,7 +3,7 @@ import * as ActionTypes from '../constants/ActionTypes'
 import appUpdater, { initialModel as appInitialModel } from '../App/updater'
 
 const initialModel = {
-  widgetList: [],
+  widgetList: [appUpdater(appInitialModel)],
 }
 
 export default new Updater(initialModel)
